@@ -7,16 +7,16 @@ package lib.github1552980358.threadbus.interfaces
  * @TIME    : 8:59
  **/
 
-open abstract class HandlerBusInterface: BusInterface() {
+abstract class HandlerBusInterface: BusInterface() {
     val getRunnable by lazy {
         Runnable {
             try {
                 doAction()
             } catch (e: Exception) {
-                handler.post { onException(e) }
+                handler?.post { onException(e) }
                 return@Runnable
             }
-            handler.post { onActionDone() }
+            handler?.post { onActionDone() }
         }
     }
 }

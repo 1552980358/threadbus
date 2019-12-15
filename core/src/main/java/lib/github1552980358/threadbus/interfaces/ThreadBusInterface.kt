@@ -7,6 +7,6 @@ package lib.github1552980358.threadbus.interfaces
  * @TIME    : 9:00
  **/
 
-open abstract class ThreadBusInterface: BusInterface() {
+abstract class ThreadBusInterface: BusInterface() {
     var errorThrown = false
 }

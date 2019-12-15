@@ -1,4 +1,4 @@
-package lib.github1552980358.threadbus.interfaces
+package lib.github1552980358.threadbus.util
 
 /**
  * @File    : Result
