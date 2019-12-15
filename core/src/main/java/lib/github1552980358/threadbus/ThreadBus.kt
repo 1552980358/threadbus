@@ -10,7 +10,7 @@ import lib.github1552980358.threadbus.interfaces.HandlerBusInterface
  * @TIME    : 8:57
  **/
 
-class ThreadBus private constructor() {
+open class ThreadBus private constructor() {
     companion object {
         /**
          * @author 1552980358

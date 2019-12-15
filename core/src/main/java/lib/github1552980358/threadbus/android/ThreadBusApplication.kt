@@ -10,7 +10,7 @@ import lib.github1552980358.threadbus.ThreadBus
  * @TIME    : 9:02
  **/
 
-class ThreadBusApplication: Application() {
+open class ThreadBusApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         // should be initialized in onCreate() of application

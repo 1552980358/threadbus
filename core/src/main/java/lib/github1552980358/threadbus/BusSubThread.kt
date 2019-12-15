@@ -9,7 +9,7 @@ import lib.github1552980358.threadbus.interfaces.ThreadBusInterface
  * @TIME    : 9:01
  **/
 
-class BusSubThread: Thread() {
+open class BusSubThread: Thread() {
     private var threadInterrupt = false
     private var threadBusInterface: ThreadBusInterface? = null
     private var interfaceExecuting = false

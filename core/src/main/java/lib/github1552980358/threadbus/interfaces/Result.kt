@@ -7,4 +7,4 @@ package lib.github1552980358.threadbus.interfaces
  * @TIME    : 9:19
  **/
 
-class Result(val index: Int, val result: Any?)
+open class Result(val index: Int, val result: Any?)

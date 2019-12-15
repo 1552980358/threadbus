@@ -9,7 +9,7 @@ import android.os.Handler
  * @TIME    : 8:59
  **/
 
-abstract class BusInterface {
+open abstract class BusInterface {
     val handler = Handler()
     
     private val resultsArray = arrayListOf<Any?>()
