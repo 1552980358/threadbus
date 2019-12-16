@@ -1,8 +1,11 @@
+@file:Suppress("DEPRECATION")
+
 package lib.github1552980358.threadbus.interfaces
 
 import android.os.Handler
 import lib.github1552980358.threadbus.BusInstanceException
 import lib.github1552980358.threadbus.util.Result
+import lib.github1552980358.threadbus.util.ResultClass
 
 /**
  * @File    : BusInterface
@@ -18,40 +21,52 @@ abstract class BusInterface {
     /**
      * storing results in the thread
      * @author 1552980358
+     *
+     * @deprecated v0.4 Use String as Identifier
+     * @see resultMap
      **/
+    @Deprecated("Use String as Identifier", ReplaceWith("resultsMap"), DeprecationLevel.WARNING)
     private var resultsArray: ArrayList<Any?>? = arrayListOf()
     
     /**
-     * doAction
+     * storing results in the thread
+     * @author 1552980358
+     *
+     * @added v0.4
+     **/
+    private var resultMap: MutableMap<String, Any?>? = mutableMapOf()
+    
+    /**
+     * doAction()
      * @author 1552980358
      * @return void
      **/
     abstract fun doAction()
     
     /**
-     * onException
+     * onException()
      * @author 1552980358
-     * @param e Exception output
+     * @param e: Exception output
      * @return void
      **/
     abstract fun onException(e: Exception)
     
     /**
-     * onActionDone
+     * onActionDone()
      * @author 1552980358
      * @return void
      **/
     abstract fun onActionDone()
     
     /**
-     * constructor: create a handler with initial thread
+     * constructor(): create a handler with initial thread
      * @author 1552980358
      **/
     constructor(): super() {
         this.handler = Handler()
     }
     /**
-     * constructor: set a handler with initial thread
+     * constructor(): set a handler with initial thread
      * @author 1552980358
      * @param handler
      **/
@@ -60,9 +75,9 @@ abstract class BusInterface {
     }
     
     /**
-     * initWithHandler
+     * initWithHandler()
      * @author 1552980358
-     * @param handler should init interface handler when creation
+     * @param handler: should init interface handler when creation
      * @return BusInterface
      **/
     fun updateHandler(handler: Handler): BusInterface {
@@ -71,12 +86,19 @@ abstract class BusInterface {
     }
     
     /**
-     * setResults
+     * setResults()
      * @author 1552980358
-     * @param results results array
+     * @param results: results array
      * @return HandlerBusInterface
      * @throws BusInstanceException
+     *
+     * @deprecated v0.4
+     * Use String as Identifier
+     * @see setResultClasses
      **/
+    @Suppress("DEPRECATION")
+    @Deprecated("Use String as Identifier", ReplaceWith("setResultClasses(vararg ResultClass)"), DeprecationLevel.WARNING)
+    @Synchronized
     fun setResults(vararg results: Result): BusInterface {
         return try {
            results.forEach {
@@ -87,15 +109,41 @@ abstract class BusInterface {
             throw BusInstanceException("Request for result data actions after release")
         }
     }
-    
     /**
-     * setResult
+     * setResultClasses()
      * @author 1552980358
-     * @param index index to be inserted
-     * @param result result object
+     * @param results: results array
      * @return HandlerBusInterface
      * @throws BusInstanceException
+     * @added v0.4
      **/
+    @Synchronized
+    fun setResultClasses(vararg results: ResultClass): BusInterface {
+        return try {
+            results.forEach {
+                resultMap!![it.name] = it.result
+            }
+            this
+        } catch (e: Exception) {
+            throw BusInstanceException("Request for result data actions after release")
+        }
+    }
+    
+    /**
+     * setResult()
+     * @author 1552980358
+     * @param index: index to be inserted
+     * @param result: result object
+     * @return HandlerBusInterface
+     * @throws BusInstanceException
+     *
+     * @deprecated v0.4
+     * Use String as Identifier
+     * @see setResult
+     **/
+    @Suppress("DEPRECATION")
+    @Deprecated("Use String as Identifier", ReplaceWith("setResult(String, Any?)"), DeprecationLevel.WARNING)
+    @Synchronized
     fun setResult(index: Int, result: Any?): BusInterface {
         return try {
             resultsArray!![index] = result
@@ -106,12 +154,18 @@ abstract class BusInterface {
     }
     
     /**
-     * addResult
+     * addResult()
      * @author 1552980358
-     * @param result result object added to map
+     * @param result: result object added to map
      * @return HandlerBusInterface
      * @throws BusInstanceException
+     *
+     * @deprecated v0.4
+     * Use String as Identifier
+     * @see BusInterface.setResult(String, Any?)
      **/
+    @Suppress("DEPRECATION")
+    @Deprecated("Use String as Identifier", ReplaceWith("setResult(String, Any?)"), DeprecationLevel.WARNING)
     @Synchronized
     fun addResult(result: Any?): BusInterface {
         return try {
@@ -123,13 +177,55 @@ abstract class BusInterface {
     }
     
     /**
-     * getResult
+     * setResult()
      * @author 1552980358
-     * @param T type of returning object
-     * @param index index of the object
+     * @param result: result object added to map
+     * @return HandlerBusInterface
+     * @throws BusInstanceException
+     * @added v0.4
+     **/
+    @Synchronized
+    fun setResult(name: String, result: Any?): BusInterface {
+        return try {
+            resultMap!![name] = result
+            this
+        } catch (e: Exception) {
+            throw BusInstanceException("Request for result data actions after release")
+        }
+    }
+    
+    /**
+     * setResult()
+     * @author 1552980358
+     * @param result: result object added to map
+     * @return HandlerBusInterface
+     * @throws BusInstanceException
+     * @added v0.4
+     **/
+    @Synchronized
+    fun setResult(result: ResultClass): BusInterface {
+        return try {
+            resultMap!![result.name] = result.result
+            this
+        } catch (e: Exception) {
+            throw BusInstanceException("Request for result data actions after release")
+        }
+    }
+    
+    /**
+     * getResult()
+     * @author 1552980358
+     * @param T: type of returning object
+     * @param index: index of the object
      * @return T
      * @throws BusInstanceException
+     *
+     * @deprecated v0.4
+     * Use String as Identifier
+     * @see BusInterface.getResult(String)
      **/
+    @Suppress("DEPRECATION")
+    @Deprecated("Use String as Identifier", ReplaceWith("getResult(String)"), DeprecationLevel.WARNING)
     fun <T> getResult(index: Int): T {
         @Suppress("UNCHECKED_CAST")
         return try {
@@ -140,17 +236,53 @@ abstract class BusInterface {
     }
     
     /**
-     * getResults
+     * getResult()
      * @author 1552980358
+     * @param name: result object added to map
      * @return HandlerBusInterface
      * @throws BusInstanceException
+     * @added v0.4
      **/
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun<T> getResult(name: String): T {
+        return try {
+            @Suppress("UNCHECKED_CAST")
+            resultMap!![name] as T
+        } catch (e: Exception) {
+            throw BusInstanceException("Request for result data actions after release")
+        }
+    }
+    
+    /**
+     * getResults()
+     * @author 1552980358
+     * @return ArrayList<Any?>
+     * @throws BusInstanceException
+     *
+     * @deprecated v0.4
+     * Use String as Identifier
+     * @see getResultsMap()
+     **/
+    @Suppress("DEPRECATION")
+    @Deprecated("Use String as Identifier", ReplaceWith("getResults()"), DeprecationLevel.WARNING)
     fun getResults(): ArrayList<Any?> {
         return resultsArray ?: throw BusInstanceException("Request for result data actions after release")
     }
     
     /**
-     * releaseAll
+     * getResults()
+     * @author 1552980358
+     * @return MutableMap<String, Any?>
+     * @throws BusInstanceException
+     * @added v0.4
+     **/
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun getResultsMap(): MutableMap<String, Any?> {
+        return resultMap ?: throw BusInstanceException("Request for result data actions after release")
+    }
+    
+    /**
+     * releaseAll()
      * @author 1552980358
      * @param cleaning whether clean garbage
      * @return void
@@ -158,7 +290,8 @@ abstract class BusInterface {
     @Synchronized
     fun releaseAll(cleaning: Boolean = true) {
         handler = null
-        resultsArray = null
+        //resultsArray = null
+        resultMap = null
         
         // call for cleaning
         if (cleaning) {
