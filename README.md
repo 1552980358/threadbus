@@ -6,6 +6,11 @@ threadbus
 
 - Language: Kotlin
 
+## Instruction / 使用方法
+- Please refer to wiki
+- 请参照wiki
+- [Wiki](https://github.com/1552980358/threadbus/wiki)
+
 ## Open-Sourced License - [GNU General Public License v3.0](LICENSE)
 ```
                     GNU GENERAL PUBLIC LICENSE
