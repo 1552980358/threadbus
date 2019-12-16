@@ -7,9 +7,8 @@ threadbus
 - Language: Kotlin
 
 ## Instruction / 使用方法
-- Please refer to wiki
-- 请参照wiki
-- [Wiki](https://github.com/1552980358/threadbus/wiki)
+- Please refer to [English Wiki](https://github.com/1552980358/threadbus/wiki)
+- 请参照[中文Wiki](https://github.com/1552980358/threadbus/wiki/%E4%B8%BB%E9%A1%B5)
 
 ## Open-Sourced License - [GNU General Public License v3.0](LICENSE)
 ```
