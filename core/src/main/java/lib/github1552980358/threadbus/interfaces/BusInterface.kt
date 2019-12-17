@@ -3,6 +3,7 @@
 package lib.github1552980358.threadbus.interfaces
 
 import android.os.Handler
+import android.os.Looper
 import lib.github1552980358.threadbus.BusInstanceException
 import lib.github1552980358.threadbus.util.Result
 import lib.github1552980358.threadbus.util.ResultClass
@@ -72,6 +73,16 @@ abstract class BusInterface {
      **/
     constructor(handler: Handler): super() {
         this.handler = handler
+    }
+    /**
+     * constructor(): set a handler with initial thread
+     * @author 1552980358
+     * @param looper
+     *
+     * @added 0.5
+     **/
+    constructor(looper: Looper): super() {
+        this.handler = Handler(looper)
     }
     
     /**

@@ -1,7 +1,7 @@
 package lib.github1552980358.threadbus.util
 
 /**
- * @File    : Pirority
+ * @File    : Priority
  * @Author  : 1552980358
  * @Date    : 2019/12/15
  * @TIME    : 15:37

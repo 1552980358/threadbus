@@ -49,6 +49,7 @@ open class BusSubThread : Thread() {
     
     /**
      * setBusInterface
+     * @author 1552980358
      * @param busInterface add a interface to be executed
      * @param priority consider force
      * @return void
