@@ -32,8 +32,7 @@ abstract class BusInterface {
     /**
      * storing results in the thread
      * @author 1552980358
-     *
-     * @added v0.4
+     * @add v0.4
      **/
     private var resultMap: MutableMap<String, Any?>? = mutableMapOf()
     
@@ -77,9 +76,8 @@ abstract class BusInterface {
     /**
      * constructor(): set a handler with initial thread
      * @author 1552980358
+     * @add v0.5
      * @param looper
-     *
-     * @added 0.5
      **/
     constructor(looper: Looper): super() {
         this.handler = Handler(looper)
@@ -123,10 +121,10 @@ abstract class BusInterface {
     /**
      * setResultClasses()
      * @author 1552980358
+     * @add v0.4
      * @param results: results array
      * @return HandlerBusInterface
      * @throws BusInstanceException
-     * @added v0.4
      **/
     @Synchronized
     fun setResultClasses(vararg results: ResultClass): BusInterface {
@@ -190,10 +188,10 @@ abstract class BusInterface {
     /**
      * setResult()
      * @author 1552980358
+     * @add v0.4
      * @param result: result object added to map
      * @return HandlerBusInterface
      * @throws BusInstanceException
-     * @added v0.4
      **/
     @Synchronized
     fun setResult(name: String, result: Any?): BusInterface {
@@ -208,10 +206,10 @@ abstract class BusInterface {
     /**
      * setResult()
      * @author 1552980358
+     * @add v0.4
      * @param result: result object added to map
      * @return HandlerBusInterface
      * @throws BusInstanceException
-     * @added v0.4
      **/
     @Synchronized
     fun setResult(result: ResultClass): BusInterface {
@@ -249,10 +247,10 @@ abstract class BusInterface {
     /**
      * getResult()
      * @author 1552980358
+     * @add v0.4
      * @param name: result object added to map
      * @return HandlerBusInterface
      * @throws BusInstanceException
-     * @added v0.4
      **/
     @Suppress("MemberVisibilityCanBePrivate")
     fun<T> getResult(name: String): T {
@@ -283,9 +281,9 @@ abstract class BusInterface {
     /**
      * getResults()
      * @author 1552980358
+     * @add v0.4
      * @return MutableMap<String, Any?>
      * @throws BusInstanceException
-     * @added v0.4
      **/
     @Suppress("MemberVisibilityCanBePrivate")
     fun getResultsMap(): MutableMap<String, Any?> {

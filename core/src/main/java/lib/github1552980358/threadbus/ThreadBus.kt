@@ -23,6 +23,18 @@ open class ThreadBus private constructor() {
         val threadBus by lazy { ThreadBus() }
         
         const val CREATE = "CREATE"
+    
+        /**
+         * Set up looper for called thread, should be set before
+         * @author 1552980358
+         * @add v0.5
+         * @see registerHandler(String)
+         * to ThreadBus
+         **/
+        fun setUpLooper() {
+            Looper.prepare()
+            Looper.loop()
+        }
     }
     
     /**
@@ -31,9 +43,15 @@ open class ThreadBus private constructor() {
      **/
     private val handlerMap = mutableMapOf<String, Handler?>()
     /**
-     * threadMap: storing threads
+     * busSubThreadMap: storing BusSubThreads
+     * @author 1552980358
      **/
-    private val threadMap = mutableMapOf<String, BusSubThread>()
+    private val busSubThreadMap = mutableMapOf<String, BusSubThread?>()
+    /**
+     * busSubThreadMap: storing threads
+     * @author 1552980358
+     **/
+    private val threadMap = mutableMapOf<String, Thread?>()
     
     /**
      * initialize
@@ -71,11 +89,15 @@ open class ThreadBus private constructor() {
     }
     
     /**
-     * registerHandler()
+     * registerHandler(): register a handler
      * @author 1552980358
      * @param handlerName: name of the handler register
      * @param handler: handler object
      * @return ThreadBus
+     *
+     * Should call
+     * @see setUpLooper()
+     * before registering
      **/
     fun registerHandler(handlerName: String, handler: Handler?): ThreadBus {
         handlerMap[handlerName] = handler
@@ -83,16 +105,35 @@ open class ThreadBus private constructor() {
     }
     
     /**
-     * registerHandler()
+     * registerHandler(): register a handler
      * @author 1552980358
+     * @add v0.5
      * @param handlerName: name of the handler register
      * @param looper: used to create Handler() object
      * @return ThreadBus
      *
-     * @added v0.5
+     * Should call
+     * @see setUpLooper()
+     * before registering
      **/
     fun registerHandler(handlerName: String, looper: Looper): ThreadBus {
         handlerMap[handlerName] = Handler(looper)
+        return this
+    }
+    
+    /**
+     * registerHandler(): register a handler for current thread
+     * @author 1552980358
+     * @add v0.5
+     * @param handlerName: name of the handler register
+     * @return ThreadBus
+     *
+     * Should call
+     * @see setUpLooper()
+     * before registering
+     **/
+    fun registerHandler(handlerName: String): ThreadBus {
+        handlerMap[handlerName] = Handler(Looper.myLooper()!!)
         return this
     }
     
@@ -109,13 +150,12 @@ open class ThreadBus private constructor() {
     
     /**
      * unregisterHandler()
+     * @add v0.5
      * @author 1552980358
      * @param handlerName: name of the handler
      * @param runnable: runnable to be posted
      * @param delayMillis: millis to be delayed
      * @return ThreadBus
-     *
-     * @added v0.5
      **/
     fun postHandler(handlerName: String, runnable: Runnable, delayMillis: Long = 0): ThreadBus {
         handlerMap[handlerName]!!.postDelayed(runnable, delayMillis)
@@ -124,11 +164,10 @@ open class ThreadBus private constructor() {
     
     /**
      * getLooper()
+     * @add v0.5
      * @author 1552980358
      * @param handlerName: name of the handler
      * @return Looper?
-     *
-     * @added v0.5
      **/
     fun getLooper(handlerName: String): Looper? {
         return handlerMap[handlerName]?.looper
@@ -141,7 +180,7 @@ open class ThreadBus private constructor() {
      * @return ThreadBus
      **/
     fun registerBusSubThread(threadName: String): ThreadBus {
-        threadMap[threadName] = BusSubThread().startThread()
+        busSubThreadMap[threadName] = BusSubThread().startThread()
         return this
     }
     
@@ -152,7 +191,7 @@ open class ThreadBus private constructor() {
      * @return ThreadBus
      **/
     fun unregisterBusSubThread(threadName: String): ThreadBus {
-        threadMap.remove(threadName)?.interrupt()
+        busSubThreadMap.remove(threadName)?.interrupt()
         return this
     }
     
@@ -165,13 +204,41 @@ open class ThreadBus private constructor() {
      * @return ThreadBus
      **/
     fun runActionOnBusSubThread(threadName: String, action: ThreadBusInterface, priority: Priority): ThreadBus {
-        if (priority == Priority.NEW_THREAD) {
-            threadMap[threadName] = BusSubThread().startThread(threadName, action, threadMap)
+        try {
+            if (priority == Priority.NEW_THREAD) {
+                busSubThreadMap[threadName] = BusSubThread().startThread(threadName, action, busSubThreadMap)
+                return this
+            }
+    
+            busSubThreadMap[threadName]?.setBusInterface(action, priority)
+            return this
+        } catch (e: Exception) {
             return this
         }
+    }
     
-        threadMap[threadName]?.setBusInterface(action, priority)
+    /**
+     * registerThread()
+     * @author 1552980358
+     * @add v0.5
+     * @param threadName: name of the thread register
+     * @param thread: thread to be added
+     * @return ThreadBus
+     **/
+    fun registerThread(threadName: String, thread: Thread): ThreadBus {
+        threadMap[threadName] = thread
         return this
     }
     
+    /**
+     * unregisterThread()
+     * @author 1552980358
+     * @add v0.5
+     * @param threadName: name of the thread unregister
+     * @return ThreadBus
+     **/
+    fun unregisterThread(threadName: String): ThreadBus {
+        threadMap.remove(threadName)
+        return this
+    }
 }

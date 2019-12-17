@@ -45,7 +45,7 @@ open class BusSubThread : Thread() {
     private var timeGap = 1000L
     
     private var threadName: String? = null
-    private var threadMap: MutableMap<String, BusSubThread>? = null
+    private var threadMap: MutableMap<String, BusSubThread?>? = null
     
     /**
      * setBusInterface
@@ -218,7 +218,7 @@ open class BusSubThread : Thread() {
      * @return BusSubThread
      **/
     @Synchronized
-    fun startThread(name: String, busInterface: ThreadBusInterface, map: MutableMap<String, BusSubThread>): BusSubThread {
+    fun startThread(name: String, busInterface: ThreadBusInterface, map: MutableMap<String, BusSubThread?>): BusSubThread {
         threadName = name
         threadMap = map
         threadBusInterface = busInterface
