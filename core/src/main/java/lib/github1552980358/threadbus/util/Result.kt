@@ -20,6 +20,6 @@ open class Result(val index: Int, val result: Any?)
 /**
  * ResultClass()
  * @author 1552980358
- * @add v0.4
+ * @since v0.4
  **/
 open class ResultClass(val name: String, val result: Any?)

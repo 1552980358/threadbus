@@ -27,7 +27,7 @@ open class ThreadBus private constructor() {
         /**
          * Set up looper for called thread, should be set before
          * @author 1552980358
-         * @add v0.5
+         * @since v0.5
          * @see registerHandler(String)
          * to ThreadBus
          **/
@@ -72,7 +72,12 @@ open class ThreadBus private constructor() {
      * @param handlerName: name of the handler registered
      * @param action: interface containing actions
      * @return ThreadBus
+     * @deprecated v0.6
+     * @see runRunnableAction
+     * `Char` can be changed into `String` by user
+     * @hide
      **/
+    @Deprecated("`Char` can be changed into `String` by user", ReplaceWith("runRunnableAction"), DeprecationLevel.HIDDEN)
     fun runRunnableAction(handlerName: Char, action: HandlerBusInterface): ThreadBus =
         runRunnableAction(handlerName.toString(), action)
     
@@ -83,14 +88,15 @@ open class ThreadBus private constructor() {
      * @param action: interface containing actions
      * @return ThreadBus
      **/
-    fun runRunnableAction(handlerName: String, action: HandlerBusInterface): ThreadBus {
-        handlerMap[handlerName]?.post(action.getRunnable)
+    fun runRunnableAction(handlerName: String, action: HandlerBusInterface, delayMillis: Long = 0): ThreadBus {
+        handlerMap[handlerName]?.postDelayed(action.getRunnable, delayMillis)
         return this
     }
     
     /**
-     * registerHandler(): register a handler
+     * registerHandler()
      * @author 1552980358
+     * @description register a handler
      * @param handlerName: name of the handler register
      * @param handler: handler object
      * @return ThreadBus
@@ -105,9 +111,10 @@ open class ThreadBus private constructor() {
     }
     
     /**
-     * registerHandler(): register a handler
+     * registerHandler()
      * @author 1552980358
-     * @add v0.5
+     * @since v0.5
+     * @description register a handler
      * @param handlerName: name of the handler register
      * @param looper: used to create Handler() object
      * @return ThreadBus
@@ -124,7 +131,7 @@ open class ThreadBus private constructor() {
     /**
      * registerHandler(): register a handler for current thread
      * @author 1552980358
-     * @add v0.5
+     * @since v0.5
      * @param handlerName: name of the handler register
      * @return ThreadBus
      *
@@ -150,8 +157,10 @@ open class ThreadBus private constructor() {
     
     /**
      * unregisterHandler()
-     * @add v0.5
      * @author 1552980358
+     * @since v0.5
+     * @description do not hope for callback of contents
+     *
      * @param handlerName: name of the handler
      * @param runnable: runnable to be posted
      * @param delayMillis: millis to be delayed
@@ -164,7 +173,7 @@ open class ThreadBus private constructor() {
     
     /**
      * getLooper()
-     * @add v0.5
+     * @since v0.5
      * @author 1552980358
      * @param handlerName: name of the handler
      * @return Looper?
@@ -220,7 +229,7 @@ open class ThreadBus private constructor() {
     /**
      * registerThread()
      * @author 1552980358
-     * @add v0.5
+     * @since v0.5
      * @param threadName: name of the thread register
      * @param thread: thread to be added
      * @return ThreadBus
@@ -233,7 +242,7 @@ open class ThreadBus private constructor() {
     /**
      * unregisterThread()
      * @author 1552980358
-     * @add v0.5
+     * @since v0.5
      * @param threadName: name of the thread unregister
      * @return ThreadBus
      **/

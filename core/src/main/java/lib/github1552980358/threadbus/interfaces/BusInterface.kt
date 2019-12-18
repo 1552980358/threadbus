@@ -32,7 +32,7 @@ abstract class BusInterface {
     /**
      * storing results in the thread
      * @author 1552980358
-     * @add v0.4
+     * @since v0.4
      **/
     private var resultMap: MutableMap<String, Any?>? = mutableMapOf()
     
@@ -59,24 +59,27 @@ abstract class BusInterface {
     abstract fun onActionDone()
     
     /**
-     * constructor(): create a handler with initial thread
+     * constructor()
      * @author 1552980358
+     * @description create a handler with initial thread
      **/
     constructor(): super() {
         this.handler = Handler()
     }
     /**
-     * constructor(): set a handler with initial thread
+     * constructor()
      * @author 1552980358
+     * @description set a handler with initial thread
      * @param handler
      **/
     constructor(handler: Handler): super() {
         this.handler = handler
     }
     /**
-     * constructor(): set a handler with initial thread
+     * constructor()
      * @author 1552980358
-     * @add v0.5
+     * @since v0.5
+     * @description set a handler with initial thread
      * @param looper
      **/
     constructor(looper: Looper): super() {
@@ -121,7 +124,7 @@ abstract class BusInterface {
     /**
      * setResultClasses()
      * @author 1552980358
-     * @add v0.4
+     * @since v0.4
      * @param results: results array
      * @return HandlerBusInterface
      * @throws BusInstanceException
@@ -188,7 +191,7 @@ abstract class BusInterface {
     /**
      * setResult()
      * @author 1552980358
-     * @add v0.4
+     * @since v0.4
      * @param result: result object added to map
      * @return HandlerBusInterface
      * @throws BusInstanceException
@@ -206,7 +209,7 @@ abstract class BusInterface {
     /**
      * setResult()
      * @author 1552980358
-     * @add v0.4
+     * @since v0.4
      * @param result: result object added to map
      * @return HandlerBusInterface
      * @throws BusInstanceException
@@ -247,7 +250,7 @@ abstract class BusInterface {
     /**
      * getResult()
      * @author 1552980358
-     * @add v0.4
+     * @since v0.4
      * @param name: result object added to map
      * @return HandlerBusInterface
      * @throws BusInstanceException
@@ -281,7 +284,7 @@ abstract class BusInterface {
     /**
      * getResults()
      * @author 1552980358
-     * @add v0.4
+     * @since v0.4
      * @return MutableMap<String, Any?>
      * @throws BusInstanceException
      **/

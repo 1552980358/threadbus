@@ -9,23 +9,24 @@ import lib.github1552980358.threadbus.ThreadBus
  * @Author  : 1552980358
  * @Date    : 2019/12/17
  * @TIME    : 18:13
- * @add     : v0.5
+ * @since     : v0.5
  **/
 
 /* For java */
+@Deprecated("Seems Useless, use original method calling", ReplaceWith(""), DeprecationLevel.ERROR)
 class ObjectEntry {
     companion object {
         /**
          * Call ThreadBus in Any object
          * @author 1552980358
          *
-         * @add v0.5
+         * @since v0.5
          **/
         fun threadBus() = ThreadBus.threadBus
         /**
          * Setup a looper for called class
          * @author 1552980358
-         * @add v0.5
+         * @since v0.5
          **/
         fun setUpLooper() = ThreadBus.setUpLooper()
     }
@@ -35,13 +36,13 @@ class ObjectEntry {
 /**
  * Call ThreadBus in Any object
  * @author 1552980358
- * @add v0.5
+ * @since v0.5
  **/
 fun Any.threadBus() = ThreadBus.threadBus
 
 /**
  * Setup a looper for called class
  * @author 1552980358
- * @add v0.5
+ * @since v0.5
  **/
 fun Any.setUpLooper() = ThreadBus.setUpLooper()
