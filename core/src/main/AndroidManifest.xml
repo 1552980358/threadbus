@@ -1,12 +1,2 @@
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    package="lib.github1552980358.threadbus">
-    
-    <application
-        android:allowBackup="true"
-        android:icon="@null"
-        android:label="lib.github1552980358.threadbus"
-        android:roundIcon="@null"
-        android:supportsRtl="true"
-        android:theme="@null" />
+<manifest package="lib.github1552980358.threadbus">
 </manifest>
