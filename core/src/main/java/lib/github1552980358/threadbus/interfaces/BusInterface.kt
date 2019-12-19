@@ -7,6 +7,7 @@ import android.os.Looper
 import lib.github1552980358.threadbus.BusInstanceException
 import lib.github1552980358.threadbus.util.Result
 import lib.github1552980358.threadbus.util.ResultClass
+import java.io.Serializable
 
 /**
  * @File    : BusInterface
@@ -16,7 +17,7 @@ import lib.github1552980358.threadbus.util.ResultClass
  **/
 
 @Suppress("unused")
-abstract class BusInterface {
+abstract class BusInterface: Serializable{
     var handler: Handler? = null
     
     /**

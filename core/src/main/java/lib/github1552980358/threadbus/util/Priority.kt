@@ -1,5 +1,7 @@
 package lib.github1552980358.threadbus.util
 
+import java.io.Serializable
+
 /**
  * @File    : Priority
  * @Author  : 1552980358
@@ -7,7 +9,7 @@ package lib.github1552980358.threadbus.util
  * @TIME    : 15:37
  **/
 
-enum class Priority {
+enum class Priority: Serializable {
     NEW_THREAD,
     MAX,
     MID,

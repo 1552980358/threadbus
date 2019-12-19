@@ -1,5 +1,7 @@
 package lib.github1552980358.threadbus.interfaces
 
+import java.io.Serializable
+
 /**
  * @File    : ThreadBusInterface
  * @Author  : 1552980358
@@ -7,6 +9,6 @@ package lib.github1552980358.threadbus.interfaces
  * @TIME    : 9:00
  **/
 
-abstract class ThreadBusInterface: BusInterface() {
+abstract class ThreadBusInterface: BusInterface(), Serializable {
     var errorThrown = false
 }

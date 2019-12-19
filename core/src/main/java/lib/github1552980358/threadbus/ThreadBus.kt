@@ -5,6 +5,7 @@ import android.os.Looper
 import lib.github1552980358.threadbus.interfaces.HandlerBusInterface
 import lib.github1552980358.threadbus.interfaces.ThreadBusInterface
 import lib.github1552980358.threadbus.util.Priority
+import java.io.Serializable
 
 /**
  * @File    : ThreadBus
@@ -14,7 +15,7 @@ import lib.github1552980358.threadbus.util.Priority
  **/
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")
-open class ThreadBus private constructor() {
+open class ThreadBus private constructor(): Serializable {
     
     companion object {
         /**

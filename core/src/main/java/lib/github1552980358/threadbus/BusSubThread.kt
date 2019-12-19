@@ -2,6 +2,7 @@ package lib.github1552980358.threadbus
 
 import lib.github1552980358.threadbus.interfaces.ThreadBusInterface
 import lib.github1552980358.threadbus.util.Priority
+import java.io.Serializable
 
 /**
  * @File    : BusSubThread
@@ -11,7 +12,7 @@ import lib.github1552980358.threadbus.util.Priority
  **/
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-open class BusSubThread : Thread() {
+open class BusSubThread : Thread(), Serializable {
     
     /**
      * Interruption thread flag

@@ -82,7 +82,7 @@ public class ExampleJava {
                 setResult("666", 666);
             }
 
-        });
+        }, 0);
     }
 
     private void createNewThread() {

@@ -1,5 +1,7 @@
 package lib.github1552980358.threadbus.util
 
+import java.io.Serializable
+
 /**
  * @File    : Result
  * @Author  : 1552980358
@@ -15,11 +17,11 @@ package lib.github1552980358.threadbus.util
  * @see ResultClass
  **/
 @Deprecated("Use String as Identifier", ReplaceWith("ResultClass"), DeprecationLevel.WARNING)
-open class Result(val index: Int, val result: Any?)
+open class Result(val index: Int, val result: Any?): Serializable
 
 /**
  * ResultClass()
  * @author 1552980358
  * @since v0.4
  **/
-open class ResultClass(val name: String, val result: Any?)
+open class ResultClass(val name: String, val result: Any?): Serializable

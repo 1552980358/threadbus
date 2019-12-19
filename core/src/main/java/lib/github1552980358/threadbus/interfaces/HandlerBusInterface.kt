@@ -1,5 +1,7 @@
 package lib.github1552980358.threadbus.interfaces
 
+import java.io.Serializable
+
 /**
  * @File    : HandlerBusInterface
  * @Author  : 1552980358
@@ -7,7 +9,7 @@ package lib.github1552980358.threadbus.interfaces
  * @TIME    : 8:59
  **/
 
-abstract class HandlerBusInterface: BusInterface() {
+abstract class HandlerBusInterface: BusInterface(), Serializable {
     val getRunnable by lazy {
         Runnable {
             try {
