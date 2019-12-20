@@ -78,7 +78,12 @@ class ExampleKt {
                     setResult("msg", "Hello World!")
                     setResult("666", 666)
                 }
-            })
+            }
+        )
+        
+        threadBus().postHandler("handler2", Runnable {
+            Log.e("Runnable", "run")
+        })
     }
     
     private fun createNewThread() {

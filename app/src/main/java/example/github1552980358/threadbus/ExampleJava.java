@@ -83,6 +83,10 @@ public class ExampleJava {
             }
 
         }, 0);
+
+        ThreadBus.Companion.getThreadBus().postHandler("Handler2", () -> {
+            Log.e("Runnable", "run");
+        }, 0);
     }
 
     private void createNewThread() {
