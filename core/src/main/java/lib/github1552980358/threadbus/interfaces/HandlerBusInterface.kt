@@ -9,7 +9,7 @@ import java.io.Serializable
  * @TIME    : 8:59
  **/
 
-abstract class HandlerBusInterface: BusInterface(), Serializable {
+abstract class HandlerBusInterface: BaseActionInterface(), Serializable {
     val getRunnable by lazy {
         Runnable {
             try {

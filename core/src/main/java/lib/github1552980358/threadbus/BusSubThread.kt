@@ -11,8 +11,8 @@ import java.io.Serializable
  * @TIME    : 9:01
  **/
 
-@Suppress("unused", "MemberVisibilityCanBePrivate")
-open class BusSubThread : Thread(), Serializable {
+//@Suppress("unused", "MemberVisibilityCanBePrivate")
+class BusSubThread : Thread(), Serializable {
     
     /**
      * Interruption thread flag
@@ -56,7 +56,7 @@ open class BusSubThread : Thread(), Serializable {
      * @return void
      **/
     @Synchronized
-    fun setBusInterface(busInterface: ThreadBusInterface?, priority: Priority): BusSubThread {
+    internal fun setBusInterface(busInterface: ThreadBusInterface?, priority: Priority): BusSubThread {
         if (threadInterrupt) {
             throw BusSubThreadException("Thread has been interrupted")
         }
@@ -165,32 +165,30 @@ open class BusSubThread : Thread(), Serializable {
     }
     
     /**
-     * updateTimeGap
+     * updateTimeGap()
      * @author 1552980358
      * @param gap
-     * @return BusSubThread
      * @throws BusSubThreadException
      **/
-    fun updateTimeGap(gap: Int): BusSubThread = updateTimeGap(gap.toLong())
-    fun updateTimeGap(gap: Long): BusSubThread {
+    fun updateTimeGap(gap: Int) = updateTimeGap(gap.toLong())
+    fun updateTimeGap(gap: Long) {
         if (gap <= 0) {
             throw BusSubThreadException("Time gap should be GREATER than 0")
         }
         timeGap = gap
-        return this
     }
     
     /**
-     * stopCurrentExecution
+     * stopCurrentExecution()
      * @author 1552980358
      * @return void
      **/
-    fun stopCurrentExecution() {
+    internal fun stopCurrentExecution() {
         interfaceExecuting = false
     }
     
     /**
-     * interrupt
+     * interrupt()
      * @author 1552980358
      * @return void
      **/
@@ -200,18 +198,18 @@ open class BusSubThread : Thread(), Serializable {
     }
     
     /**
-     * startThread
+     * startThread()
      * @author 1552980358
      * @return BusSubThread
      **/
     @Synchronized
-    fun startThread(): BusSubThread {
+    internal fun startThread(): BusSubThread {
         super.start()
         return this
     }
     
     /**
-     * startThread
+     * startThread()
      * @author 1552980358
      * @param name name of the thread
      * @param busInterface task to be done
@@ -219,10 +217,11 @@ open class BusSubThread : Thread(), Serializable {
      * @return BusSubThread
      **/
     @Synchronized
-    fun startThread(name: String, busInterface: ThreadBusInterface, map: MutableMap<String, BusSubThread?>): BusSubThread {
+    internal fun startThread(name: String, busInterface: ThreadBusInterface, map: MutableMap<String, BusSubThread?>): BusSubThread {
         threadName = name
         threadMap = map
         threadBusInterface = busInterface
         return startThread()
     }
+    
 }

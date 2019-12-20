@@ -10,14 +10,14 @@ import lib.github1552980358.threadbus.util.ResultClass
 import java.io.Serializable
 
 /**
- * @File    : BusInterface
+ * @File    : BaseActionInterface
  * @Author  : 1552980358
  * @Date    : 2019/12/15
  * @TIME    : 8:59
  **/
 
 @Suppress("unused")
-abstract class BusInterface: Serializable{
+abstract class BaseActionInterface: Serializable{
     var handler: Handler? = null
     
     /**
@@ -91,9 +91,9 @@ abstract class BusInterface: Serializable{
      * initWithHandler()
      * @author 1552980358
      * @param handler: should init interface handler when creation
-     * @return BusInterface
+     * @return BaseActionInterface
      **/
-    fun updateHandler(handler: Handler): BusInterface {
+    fun updateHandler(handler: Handler): BaseActionInterface {
         this.handler = handler
         return this
     }
@@ -102,7 +102,7 @@ abstract class BusInterface: Serializable{
      * setResults()
      * @author 1552980358
      * @param results: results array
-     * @return HandlerBusInterface
+     * @return HandlerBaseActionInterface
      * @throws BusInstanceException
      *
      * @deprecated v0.4
@@ -112,7 +112,7 @@ abstract class BusInterface: Serializable{
     @Suppress("DEPRECATION")
     @Deprecated("Use String as Identifier", ReplaceWith("setResultClasses(vararg ResultClass)"), DeprecationLevel.WARNING)
     @Synchronized
-    fun setResults(vararg results: Result): BusInterface {
+    fun setResults(vararg results: Result): BaseActionInterface {
         return try {
            results.forEach {
                resultsArray!![it.index] = it.result
@@ -127,11 +127,11 @@ abstract class BusInterface: Serializable{
      * @author 1552980358
      * @since v0.4
      * @param results: results array
-     * @return HandlerBusInterface
+     * @return HandlerBaseActionInterface
      * @throws BusInstanceException
      **/
     @Synchronized
-    fun setResultClasses(vararg results: ResultClass): BusInterface {
+    fun setResultClasses(vararg results: ResultClass): BaseActionInterface {
         return try {
             results.forEach {
                 resultMap!![it.name] = it.result
@@ -147,7 +147,7 @@ abstract class BusInterface: Serializable{
      * @author 1552980358
      * @param index: index to be inserted
      * @param result: result object
-     * @return HandlerBusInterface
+     * @return HandlerBaseActionInterface
      * @throws BusInstanceException
      *
      * @deprecated v0.4
@@ -157,7 +157,7 @@ abstract class BusInterface: Serializable{
     @Suppress("DEPRECATION")
     @Deprecated("Use String as Identifier", ReplaceWith("setResult(String, Any?)"), DeprecationLevel.WARNING)
     @Synchronized
-    fun setResult(index: Int, result: Any?): BusInterface {
+    fun setResult(index: Int, result: Any?): BaseActionInterface {
         return try {
             resultsArray!![index] = result
             this
@@ -170,17 +170,17 @@ abstract class BusInterface: Serializable{
      * addResult()
      * @author 1552980358
      * @param result: result object added to map
-     * @return HandlerBusInterface
+     * @return HandlerBaseActionInterface
      * @throws BusInstanceException
      *
      * @deprecated v0.4
      * Use String as Identifier
-     * @see BusInterface.setResult(String, Any?)
+     * @see BaseActionInterface.setResult(String, Any?)
      **/
     @Suppress("DEPRECATION")
     @Deprecated("Use String as Identifier", ReplaceWith("setResult(String, Any?)"), DeprecationLevel.WARNING)
     @Synchronized
-    fun addResult(result: Any?): BusInterface {
+    fun addResult(result: Any?): BaseActionInterface {
         return try {
             resultsArray!!.add(result)
             this
@@ -194,11 +194,11 @@ abstract class BusInterface: Serializable{
      * @author 1552980358
      * @since v0.4
      * @param result: result object added to map
-     * @return HandlerBusInterface
+     * @return HandlerBaseActionInterface
      * @throws BusInstanceException
      **/
     @Synchronized
-    fun setResult(name: String, result: Any?): BusInterface {
+    fun setResult(name: String, result: Any?): BaseActionInterface {
         return try {
             resultMap!![name] = result
             this
@@ -212,11 +212,11 @@ abstract class BusInterface: Serializable{
      * @author 1552980358
      * @since v0.4
      * @param result: result object added to map
-     * @return HandlerBusInterface
+     * @return HandlerBaseActionInterface
      * @throws BusInstanceException
      **/
     @Synchronized
-    fun setResult(result: ResultClass): BusInterface {
+    fun setResult(result: ResultClass): BaseActionInterface {
         return try {
             resultMap!![result.name] = result.result
             this
@@ -235,7 +235,7 @@ abstract class BusInterface: Serializable{
      *
      * @deprecated v0.4
      * Use String as Identifier
-     * @see BusInterface.getResult(String)
+     * @see BaseActionInterface.getResult(String)
      **/
     @Suppress("DEPRECATION")
     @Deprecated("Use String as Identifier", ReplaceWith("getResult(String)"), DeprecationLevel.WARNING)
@@ -253,7 +253,7 @@ abstract class BusInterface: Serializable{
      * @author 1552980358
      * @since v0.4
      * @param name: result object added to map
-     * @return HandlerBusInterface
+     * @return HandlerBaseActionInterface
      * @throws BusInstanceException
      **/
     @Suppress("MemberVisibilityCanBePrivate")

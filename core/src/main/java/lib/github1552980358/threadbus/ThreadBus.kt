@@ -18,6 +18,7 @@ import java.io.Serializable
 open class ThreadBus private constructor(): Serializable {
     
     companion object {
+        
         /**
          * @author 1552980358
          **/
@@ -36,6 +37,7 @@ open class ThreadBus private constructor(): Serializable {
             Looper.prepare()
             Looper.loop()
         }
+        
     }
     
     /**
@@ -79,6 +81,7 @@ open class ThreadBus private constructor(): Serializable {
      * @hide
      **/
     @Deprecated("`Char` can be changed into `String` by user", ReplaceWith("runRunnableAction"), DeprecationLevel.HIDDEN)
+    @Synchronized
     fun runRunnableAction(handlerName: Char, action: HandlerBusInterface): ThreadBus =
         runRunnableAction(handlerName.toString(), action)
     
@@ -89,6 +92,7 @@ open class ThreadBus private constructor(): Serializable {
      * @param action: interface containing actions
      * @return ThreadBus
      **/
+    @Synchronized
     fun runRunnableAction(handlerName: String, action: HandlerBusInterface, delayMillis: Long = 0): ThreadBus {
         handlerMap[handlerName]?.postDelayed(action.getRunnable, delayMillis)
         return this
@@ -106,6 +110,7 @@ open class ThreadBus private constructor(): Serializable {
      * @see setUpLooper()
      * before registering
      **/
+    @Synchronized
     fun registerHandler(handlerName: String, handler: Handler?): ThreadBus {
         handlerMap[handlerName] = handler
         return this
@@ -124,6 +129,7 @@ open class ThreadBus private constructor(): Serializable {
      * @see setUpLooper()
      * before registering
      **/
+    @Synchronized
     fun registerHandler(handlerName: String, looper: Looper): ThreadBus {
         handlerMap[handlerName] = Handler(looper)
         return this
@@ -140,6 +146,7 @@ open class ThreadBus private constructor(): Serializable {
      * @see setUpLooper()
      * before registering
      **/
+    @Synchronized
     fun registerHandler(handlerName: String): ThreadBus {
         handlerMap[handlerName] = Handler(Looper.myLooper()!!)
         return this
@@ -151,6 +158,7 @@ open class ThreadBus private constructor(): Serializable {
      * @param handlerName: name of the handler unregister
      * @return ThreadBus
      **/
+    @Synchronized
     fun unregisterHandler(handlerName: String): ThreadBus {
         handlerMap[handlerName] = null
         return this
@@ -167,6 +175,7 @@ open class ThreadBus private constructor(): Serializable {
      * @param delayMillis: millis to be delayed
      * @return ThreadBus
      **/
+    @Synchronized
     fun postHandler(handlerName: String, runnable: Runnable, delayMillis: Long = 0): ThreadBus {
         handlerMap[handlerName]!!.postDelayed(runnable, delayMillis)
         return this
@@ -189,6 +198,7 @@ open class ThreadBus private constructor(): Serializable {
      * @param threadName: name of the handler register
      * @return ThreadBus
      **/
+    @Synchronized
     fun registerBusSubThread(threadName: String): ThreadBus {
         busSubThreadMap[threadName] = BusSubThread().startThread()
         return this
@@ -200,31 +210,10 @@ open class ThreadBus private constructor(): Serializable {
      * @param threadName: name of the thread unregister
      * @return ThreadBus
      **/
+    @Synchronized
     fun unregisterBusSubThread(threadName: String): ThreadBus {
         busSubThreadMap.remove(threadName)?.interrupt()
         return this
-    }
-    
-    /**
-     * runActionOnBusSubThread()
-     * @author 1552980358
-     * @param threadName: name of the thread unregister
-     * @param action: task to be done
-     * @param priority: priority of task
-     * @return ThreadBus
-     **/
-    fun runActionOnBusSubThread(threadName: String, action: ThreadBusInterface, priority: Priority): ThreadBus {
-        try {
-            if (priority == Priority.NEW_THREAD) {
-                busSubThreadMap[threadName] = BusSubThread().startThread(threadName, action, busSubThreadMap)
-                return this
-            }
-    
-            busSubThreadMap[threadName]?.setBusInterface(action, priority)
-            return this
-        } catch (e: Exception) {
-            return this
-        }
     }
     
     /**
@@ -235,6 +224,7 @@ open class ThreadBus private constructor(): Serializable {
      * @param thread: thread to be added
      * @return ThreadBus
      **/
+    @Synchronized
     fun registerThread(threadName: String, thread: Thread): ThreadBus {
         threadMap[threadName] = thread
         return this
@@ -247,8 +237,65 @@ open class ThreadBus private constructor(): Serializable {
      * @param threadName: name of the thread unregister
      * @return ThreadBus
      **/
+    @Synchronized
     fun unregisterThread(threadName: String): ThreadBus {
         threadMap.remove(threadName)
         return this
     }
+    
+    /**
+     * Followings are open method to the public.
+     * However, following calling of internal
+     * methods are opened for internal only.
+     **/
+    
+    /* ================ THREAD ===================== */
+    
+    /**
+     * runActionOnBusSubThread()
+     * @author 1552980358
+     * @param threadName: name of the thread unregister
+     * @param action: task to be done
+     * @param priority: priority of task
+     * @return ThreadBus
+     **/
+    @Synchronized
+    fun runActionOnBusSubThread(threadName: String, action: ThreadBusInterface, priority: Priority): ThreadBus {
+        try {
+            if (priority == Priority.NEW_THREAD) {
+                busSubThreadMap[threadName] = BusSubThread().startThread(threadName, action, busSubThreadMap)
+                return this
+            }
+            
+            busSubThreadMap[threadName]?.setBusInterface(action, priority)
+            return this
+        } catch (e: Exception) {
+            return this
+        }
+    }
+    
+    @Synchronized
+    fun updateTimeGap(threadName: String, timeGap: Int): ThreadBus {
+        busSubThreadMap[threadName]?.updateTimeGap(timeGap)
+        return this
+    }
+    @Synchronized
+    fun updateTimeGap(threadName: String, timeGap: Long): ThreadBus {
+        busSubThreadMap[threadName]?.updateTimeGap(timeGap)
+        return this
+    }
+    
+    /**
+     * stopCurrentExecution()
+     * @author 1552980358
+     * @since v0.7
+     * @param threadName
+     * @return ThreadBus
+     **/
+    @Synchronized
+    fun stopCurrentExecution(threadName: String): ThreadBus {
+        busSubThreadMap[threadName]?.stopCurrentExecution()
+        return this
+    }
+    
 }
