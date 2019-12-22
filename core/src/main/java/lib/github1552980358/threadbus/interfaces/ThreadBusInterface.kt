@@ -65,7 +65,7 @@ abstract class ThreadBusInterface: BaseActionInterface(), Serializable {
      * @description thread sleeper for waiting for result
      * @return void
      **/
-    fun waitForMessage(): MessageInterface? {
+    fun waitForMessage(): ThreadMessage? {
         // Init variable and flag
         resultObtained = false
         obtainedMessage = null
