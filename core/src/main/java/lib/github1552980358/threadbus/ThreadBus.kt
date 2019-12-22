@@ -56,8 +56,6 @@ open class ThreadBus private constructor(): Serializable {
      * @author 1552980358
      **/
     private val threadMap = mutableMapOf<String, Thread?>()
-    private val threadMessageListenerList = mutableListOf<ThreadBusInterface>()
-    private val listenerRemoveList = mutableListOf<Int>()
     
     /**
      * initialize
