@@ -11,9 +11,9 @@ import java.io.Serializable
  **/
 
 @Suppress("unused")
-open class ThreadMessage: Serializable {
+open class ThreadMessage(val messageName: String): Serializable {
     /**
-     * message and actions
+     * messages and actions
      * @author 1552980358
      * @since v0.7
      **/

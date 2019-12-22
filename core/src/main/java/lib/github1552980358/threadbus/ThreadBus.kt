@@ -5,6 +5,7 @@ import android.os.Looper
 import lib.github1552980358.threadbus.interfaces.HandlerBusInterface
 import lib.github1552980358.threadbus.interfaces.ThreadBusInterface
 import lib.github1552980358.threadbus.util.Priority
+import lib.github1552980358.threadbus.util.ThreadMessage
 import java.io.Serializable
 
 /**
@@ -55,6 +56,8 @@ open class ThreadBus private constructor(): Serializable {
      * @author 1552980358
      **/
     private val threadMap = mutableMapOf<String, Thread?>()
+    private val threadMessageListenerList = mutableListOf<ThreadBusInterface>()
+    private val listenerRemoveList = mutableListOf<Int>()
     
     /**
      * initialize
@@ -263,17 +266,24 @@ open class ThreadBus private constructor(): Serializable {
     fun runActionOnBusSubThread(threadName: String, action: ThreadBusInterface, priority: Priority): ThreadBus {
         try {
             if (priority == Priority.NEW_THREAD) {
-                busSubThreadMap[threadName] = BusSubThread().startThread(threadName, action, busSubThreadMap)
+                busSubThreadMap[threadName] = BusSubThread().startThread(action, busSubThreadMap).setThreadName(threadName)
                 return this
             }
-            
-            busSubThreadMap[threadName]?.setBusInterface(action, priority)
+            busSubThreadMap[threadName]?.setBusInterface(action, priority)?.setThreadName(threadName)
             return this
         } catch (e: Exception) {
             return this
         }
     }
     
+    /**
+     * stopCurrentExecution()
+     * @author 1552980358
+     * @since v0.7
+     * @param threadName
+     * @param timeGap
+     * @return ThreadBus
+     **/
     @Synchronized
     fun updateTimeGap(threadName: String, timeGap: Int): ThreadBus {
         busSubThreadMap[threadName]?.updateTimeGap(timeGap)
@@ -295,6 +305,20 @@ open class ThreadBus private constructor(): Serializable {
     @Synchronized
     fun stopCurrentExecution(threadName: String): ThreadBus {
         busSubThreadMap[threadName]?.stopCurrentExecution()
+        return this
+    }
+    
+    /**
+     * sendMessage()
+     * @author 1552980358
+     * @since v0.8
+     * @param threadName
+     * @param message
+     * @return ThreadBus
+     **/
+    @Synchronized
+    fun sendMessage(threadName: String, message: ThreadMessage): ThreadBus {
+        busSubThreadMap[threadName]?.receiveMessage(message)
         return this
     }
     

@@ -2,6 +2,7 @@ package lib.github1552980358.threadbus
 
 import lib.github1552980358.threadbus.interfaces.ThreadBusInterface
 import lib.github1552980358.threadbus.util.Priority
+import lib.github1552980358.threadbus.util.ThreadMessage
 import java.io.Serializable
 
 /**
@@ -11,7 +12,7 @@ import java.io.Serializable
  * @TIME    : 9:01
  **/
 
-//@Suppress("unused", "MemberVisibilityCanBePrivate")
+@Suppress("unused")
 class BusSubThread : Thread(), Serializable {
     
     /**
@@ -45,8 +46,10 @@ class BusSubThread : Thread(), Serializable {
      **/
     private var timeGap = 1000L
     
-    private var threadName: String? = null
+    private lateinit var threadName: String
     private var threadMap: MutableMap<String, BusSubThread?>? = null
+    
+    private var removeOnDone = false
     
     /**
      * setBusInterface
@@ -54,6 +57,9 @@ class BusSubThread : Thread(), Serializable {
      * @param busInterface add a interface to be executed
      * @param priority consider force
      * @return void
+     *
+     * @warning INTERNAL
+     *
      **/
     @Synchronized
     internal fun setBusInterface(busInterface: ThreadBusInterface?, priority: Priority): BusSubThread {
@@ -78,6 +84,36 @@ class BusSubThread : Thread(), Serializable {
     }
     
     /**
+     * setThreadName()
+     * @author 1552980358
+     * @since v0.8
+     * @param name: name of thread
+     * @return BusSubThread
+     *
+     * @warning INTERNAL
+     *
+     **/
+    internal fun setThreadName(name: String): BusSubThread {
+        threadName = name
+        return this
+    }
+    
+    /**
+     * receiveMessage()
+     * @author 1552980358
+     * @since v0.8
+     * @param message: message received
+     * @return BusSubThread
+     *
+     * @warning INTERNAL
+     *
+     **/
+    internal fun receiveMessage(message: ThreadMessage): BusSubThread {
+        threadBusInterface?.receiveMessage(message)
+        return this
+    }
+    
+    /**
      * run: rewrite super function
      * @author 1552980358
      * @return void
@@ -85,21 +121,19 @@ class BusSubThread : Thread(), Serializable {
     override fun run() {
         super.run()
         
-        if (threadName != null) {
+        if (!removeOnDone) {
             try {
                 threadBusInterface?.doAction()
             } catch (e: Exception) {
                 threadBusInterface?.onException(e)
-                threadMap!!.remove(threadName!!)
+                threadMap!!.remove(threadName)
                 threadMap = null
-                threadName = null
                 System.gc()
                 return
             }
             threadBusInterface?.onActionDone()
-            threadMap!!.remove(threadName!!)
+            threadMap!!.remove(threadName)
             threadMap = null
-            threadName = null
             System.gc()
             return
         }
@@ -169,9 +203,11 @@ class BusSubThread : Thread(), Serializable {
      * @author 1552980358
      * @param gap
      * @throws BusSubThreadException
+     *
+     * @warning INTERNAL
      **/
-    fun updateTimeGap(gap: Int) = updateTimeGap(gap.toLong())
-    fun updateTimeGap(gap: Long) {
+    internal fun updateTimeGap(gap: Int) = updateTimeGap(gap.toLong())
+    internal fun updateTimeGap(gap: Long) {
         if (gap <= 0) {
             throw BusSubThreadException("Time gap should be GREATER than 0")
         }
@@ -211,14 +247,13 @@ class BusSubThread : Thread(), Serializable {
     /**
      * startThread()
      * @author 1552980358
-     * @param name name of the thread
      * @param busInterface task to be done
      * @param map map storing threads
      * @return BusSubThread
      **/
     @Synchronized
-    internal fun startThread(name: String, busInterface: ThreadBusInterface, map: MutableMap<String, BusSubThread?>): BusSubThread {
-        threadName = name
+    internal fun startThread(busInterface: ThreadBusInterface, map: MutableMap<String, BusSubThread?>): BusSubThread {
+        removeOnDone = true
         threadMap = map
         threadBusInterface = busInterface
         return startThread()

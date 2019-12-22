@@ -1,5 +1,6 @@
 package lib.github1552980358.threadbus.interfaces
 
+import lib.github1552980358.threadbus.util.ThreadMessage
 import java.io.Serializable
 
 /**
@@ -12,7 +13,7 @@ import java.io.Serializable
 @Suppress("unused")
 abstract class ThreadBusInterface: BaseActionInterface(), Serializable {
     
-    private var obtainedMessage: MessageInterface? = null
+    private var obtainedMessage: ThreadMessage? = null
     
     /**
      * errorThrown
@@ -30,31 +31,31 @@ abstract class ThreadBusInterface: BaseActionInterface(), Serializable {
     private var resultObtained = true
     
     /**
-     * onMessageObtain()
+     * receiveMessage()
      * @author 1552980358
-     * @since v0.7
-     * @param messageInterface?
+     * @since v0.8
+     * @param threadMessage?
      * @return void
      *
      * @warning INTERNAL
      *
      * @hide
      **/
-    internal fun obtainMessage(messageInterface: MessageInterface?) {
-        obtainedMessage = messageInterface
+    internal fun receiveMessage(threadMessage: ThreadMessage?) {
+        obtainedMessage = threadMessage
         resultObtained = true
-        onMessageObtain(messageInterface)
+        onReceiveMessage(threadMessage)
     }
     
     /**
-     * onMessageObtain()
+     * onReceiveMessage()
      * @author 1552980358
-     * @since v0.7
+     * @since v0.8
      * @description called by internal obtainMessage()
-     * @param messageInterface?
+     * @param threadMessage?
      * @return void
      **/
-    open fun onMessageObtain(messageInterface: MessageInterface?) {
+    open fun onReceiveMessage(threadMessage: ThreadMessage?) {
     }
     
     /**
