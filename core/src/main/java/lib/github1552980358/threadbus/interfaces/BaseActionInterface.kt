@@ -18,7 +18,12 @@ import java.io.Serializable
 
 @Suppress("unused")
 abstract class BaseActionInterface: Serializable{
-    var handler: Handler? = null
+    /**
+     * handler
+     * @author 1552980358
+     * @description handler object for posting msg
+     **/
+    internal var handler: Handler? = null
     
     /**
      * storing results in the thread
@@ -93,7 +98,7 @@ abstract class BaseActionInterface: Serializable{
      * @param handler: should init interface handler when creation
      * @return BaseActionInterface
      **/
-    fun updateHandler(handler: Handler): BaseActionInterface {
+    open fun updateHandler(handler: Handler): BaseActionInterface {
         this.handler = handler
         return this
     }

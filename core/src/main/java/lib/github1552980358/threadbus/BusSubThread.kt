@@ -13,7 +13,7 @@ import java.io.Serializable
  **/
 
 @Suppress("unused")
-class BusSubThread : Thread(), Serializable {
+internal class BusSubThread : Thread(), Serializable {
     
     /**
      * Interruption thread flag
