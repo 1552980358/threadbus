@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+def gitCommits = Integer.parseInt('git rev-list --count HEAD'.execute([], project.rootDir).text.trim())
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -11,8 +13,8 @@ android {
         //applicationId "lib.github1552980358.threadbus"
         minSdkVersion 14
         targetSdkVersion 29
-        versionCode 1
-        versionName "0.12"
+        versionCode gitCommits
+        versionName "0.13"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
