@@ -92,4 +92,26 @@ abstract class ThreadTask: BaseActionInterface(), Serializable {
         resultObtained = true
     }
     
+    /**
+     * releaseMessage()
+     * @author 1552980358
+     * @since v0.14
+     * @description remove message obtained
+     * @return void
+     **/
+    fun releaseMessage() {
+        obtainedMessage = null
+    }
+    
+    /**
+     * getObtainedMessage()
+     * @author 1552980358
+     * @since v0.14
+     * @description remove message obtained
+     * @return ThreadMessage
+     **/
+    fun getObtainedMessage(): ThreadMessage? {
+        return obtainedMessage
+    }
+    
 }
