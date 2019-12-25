@@ -194,13 +194,13 @@ open class ThreadBus private constructor(): Serializable {
     }
     
     /**
-     * registerPriorityDivisionThread()
+     * registerThread()
      * @author 1552980358
      * @param threadName: name of the handler register
      * @return ThreadBus
      **/
     @Synchronized
-    fun registerPriorityDivisionThread(threadName: String): ThreadBus {
+    fun registerThread(threadName: String): ThreadBus {
         pdThreadMap[threadName] = PriorityDivisionThread().startThread()
         return this
     }
