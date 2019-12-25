@@ -1,6 +1,6 @@
 package lib.github1552980358.threadbus.util
 
-import lib.github1552980358.threadbus.interfaces.MessageInterface
+import lib.github1552980358.threadbus.interfaces.MessageTask
 import java.io.Serializable
 
 /**
@@ -12,13 +12,14 @@ import java.io.Serializable
 
 @Suppress("unused")
 open class ThreadMessage(val messageName: String): Serializable {
+    
     /**
      * messages and actions
      * @author 1552980358
      * @since v0.7
      **/
     private var msgMap: MutableMap<String, Any?> = mutableMapOf()
-    private var actionArray: ArrayList<MessageInterface>? = ArrayList()
+    private var taskArray: ArrayList<MessageTask>? = ArrayList()
     
     /**
      * addMessage()
@@ -83,44 +84,44 @@ open class ThreadMessage(val messageName: String): Serializable {
     }
     
     /**
-     * addAction()
+     * insertTask()
      * @author 1552980358
      * @since v0.7
      * @description insert a msgAction into front of specific index of array
      *
-     * @param msgAction
+     * @param task
      * @return ThreadMessage
      **/
-    fun insertAction(index: Int, msgAction: MessageInterface): ThreadMessage {
-        actionArray!!.add(index, msgAction)
+    fun insertTask(index: Int, task: MessageTask): ThreadMessage {
+        taskArray!!.add(index, task)
         return this
     }
     
     /**
-     * addAction()
+     * setTask()
      * @author 1552980358
      * @since v0.7
      * @description set a msgAction into specific index of array
      *
-     * @param msgAction
+     * @param task
      * @return ThreadMessage
      **/
-    fun setAction(index: Int, msgAction: MessageInterface): ThreadMessage {
-        actionArray!![index] = msgAction
+    fun setTask(index: Int, task: MessageTask): ThreadMessage {
+        taskArray!![index] = task
         return this
     }
     
     /**
-     * addAction()
+     * addTask()
      * @author 1552980358
      * @since v0.7
      * @description add a msgAction into end of array
      *
-     * @param msgAction
+     * @param task
      * @return ThreadMessage
      **/
-    fun addAction(msgAction: MessageInterface): ThreadMessage {
-        actionArray!!.add(msgAction)
+    fun addTask(task: MessageTask): ThreadMessage {
+        taskArray!!.add(task)
         return this
     }
     

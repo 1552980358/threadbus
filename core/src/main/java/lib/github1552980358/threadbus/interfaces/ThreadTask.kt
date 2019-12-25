@@ -4,14 +4,14 @@ import lib.github1552980358.threadbus.util.ThreadMessage
 import java.io.Serializable
 
 /**
- * @File    : ThreadBusInterface
+ * @File    : ThreadTask
  * @Author  : 1552980358
  * @Date    : 2019/12/15
  * @TIME    : 9:00
  **/
 
 @Suppress("unused")
-abstract class ThreadBusInterface: BaseActionInterface(), Serializable {
+abstract class ThreadTask: BaseActionInterface(), Serializable {
     
     private var obtainedMessage: ThreadMessage? = null
     

@@ -1,19 +1,19 @@
 package lib.github1552980358.threadbus
 
-import lib.github1552980358.threadbus.interfaces.ThreadBusInterface
+import lib.github1552980358.threadbus.interfaces.ThreadTask
 import lib.github1552980358.threadbus.util.Priority
 import lib.github1552980358.threadbus.util.ThreadMessage
 import java.io.Serializable
 
 /**
- * @File    : BusSubThread
+ * @File    : PriorityDivisionThread
  * @Author  : 1552980358
  * @Date    : 2019/12/15
  * @TIME    : 9:01
  **/
 
 @Suppress("unused")
-internal class BusSubThread : Thread(), Serializable {
+internal class PriorityDivisionThread : Thread(), Serializable {
     
     /**
      * Interruption thread flag
@@ -31,14 +31,14 @@ internal class BusSubThread : Thread(), Serializable {
      * Template variable
      * @author 1552980358
      **/
-    private var threadBusInterface: ThreadBusInterface? = null
+    private var threadTask: ThreadTask? = null
     
     /**
      * arrays storing tasks with reference to priority
      **/
-    private val maxArray = arrayListOf<ThreadBusInterface?>()
-    private val midArray = arrayListOf<ThreadBusInterface?>()
-    private val minArray = arrayListOf<ThreadBusInterface?>()
+    private val maxArray = arrayListOf<ThreadTask?>()
+    private val midArray = arrayListOf<ThreadTask?>()
+    private val minArray = arrayListOf<ThreadTask?>()
     
     /**
      * timeGap
@@ -47,14 +47,14 @@ internal class BusSubThread : Thread(), Serializable {
     private var timeGap = 1000L
     
     private lateinit var threadName: String
-    private var threadMap: MutableMap<String, BusSubThread?>? = null
+    private var threadMap: MutableMap<String, PriorityDivisionThread?>? = null
     
     private var removeOnDone = false
     
     /**
-     * setBusInterface
+     * setTask
      * @author 1552980358
-     * @param busInterface add a interface to be executed
+     * @param task add a interface to be executed
      * @param priority consider force
      * @return void
      *
@@ -62,19 +62,19 @@ internal class BusSubThread : Thread(), Serializable {
      *
      **/
     @Synchronized
-    internal fun setBusInterface(busInterface: ThreadBusInterface?, priority: Priority): BusSubThread {
+    internal fun setTask(task: ThreadTask?, priority: Priority): PriorityDivisionThread {
         if (threadInterrupt) {
             throw BusSubThreadException("Thread has been interrupted")
         }
         when (priority) {
             Priority.MAX -> {
-                maxArray.add(busInterface)
+                maxArray.add(task)
             }
             Priority.MID -> {
-                midArray.add(busInterface)
+                midArray.add(task)
             }
             Priority.MIN -> {
-                minArray.add(busInterface)
+                minArray.add(task)
             }
             else -> {
                 throw BusSubThreadException("Illegal Priority")
@@ -88,12 +88,12 @@ internal class BusSubThread : Thread(), Serializable {
      * @author 1552980358
      * @since v0.8
      * @param name: name of thread
-     * @return BusSubThread
+     * @return PriorityDivisionThread
      *
      * @warning INTERNAL
      *
      **/
-    internal fun setThreadName(name: String): BusSubThread {
+    internal fun setThreadName(name: String): PriorityDivisionThread {
         threadName = name
         return this
     }
@@ -103,13 +103,13 @@ internal class BusSubThread : Thread(), Serializable {
      * @author 1552980358
      * @since v0.8
      * @param message: message received
-     * @return BusSubThread
+     * @return PriorityDivisionThread
      *
      * @warning INTERNAL
      *
      **/
-    internal fun receiveMessage(message: ThreadMessage): BusSubThread {
-        threadBusInterface?.receiveMessage(message)
+    internal fun receiveMessage(message: ThreadMessage): PriorityDivisionThread {
+        threadTask?.receiveMessage(message)
         return this
     }
     
@@ -123,15 +123,15 @@ internal class BusSubThread : Thread(), Serializable {
         
         if (!removeOnDone) {
             try {
-                threadBusInterface?.doAction()
+                threadTask?.doAction()
             } catch (e: Exception) {
-                threadBusInterface?.onException(e)
+                threadTask?.onException(e)
                 threadMap!!.remove(threadName)
                 threadMap = null
                 System.gc()
                 return
             }
-            threadBusInterface?.onActionDone()
+            threadTask?.onActionDone()
             threadMap!!.remove(threadName)
             threadMap = null
             System.gc()
@@ -154,46 +154,46 @@ internal class BusSubThread : Thread(), Serializable {
             // priority assigning task
             when {
                 maxArray.isNotEmpty() -> {
-                    threadBusInterface = maxArray.removeAt(0)
+                    threadTask = maxArray.removeAt(0)
                 }
                 midArray.isNotEmpty() -> {
-                    threadBusInterface = midArray.removeAt(0)
+                    threadTask = midArray.removeAt(0)
                 }
                 minArray.isNotEmpty() -> {
-                    threadBusInterface = minArray.removeAt(0)
+                    threadTask = minArray.removeAt(0)
                 }
             }
             
             // nothing done, move to next loop
-            threadBusInterface ?: continue
+            threadTask ?: continue
             interfaceExecuting = true
             
             try {
                 if (!interfaceExecuting) {
                     continue
                 }
-                threadBusInterface?.doAction()
+                threadTask?.doAction()
             } catch (e: Exception) {
                 if (!interfaceExecuting) {
                     continue
                 }
-                threadBusInterface?.errorThrown = true
-                threadBusInterface?.handler?.post { threadBusInterface?.onException(e) }
+                threadTask?.errorThrown = true
+                threadTask?.handler?.post { threadTask?.onException(e) }
             }
             try {
                 if (!interfaceExecuting) {
                     continue
                 }
                 
-                if (threadBusInterface == null || threadBusInterface?.errorThrown == null || !threadBusInterface!!.errorThrown) {
-                    threadBusInterface?.handler?.post { threadBusInterface?.onActionDone() }
+                if (threadTask == null || threadTask?.errorThrown == null || !threadTask!!.errorThrown) {
+                    threadTask?.handler?.post { threadTask?.onActionDone() }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
             
             // remove interface when no changed during execution
-            threadBusInterface = null
+            threadTask = null
             interfaceExecuting = false
         } while (!threadInterrupt)
     }
@@ -236,10 +236,10 @@ internal class BusSubThread : Thread(), Serializable {
     /**
      * startThread()
      * @author 1552980358
-     * @return BusSubThread
+     * @return PriorityDivisionThread
      **/
     @Synchronized
-    internal fun startThread(): BusSubThread {
+    internal fun startThread(): PriorityDivisionThread {
         super.start()
         return this
     }
@@ -247,15 +247,15 @@ internal class BusSubThread : Thread(), Serializable {
     /**
      * startThread()
      * @author 1552980358
-     * @param busInterface task to be done
+     * @param task task to be done
      * @param map map storing threads
-     * @return BusSubThread
+     * @return PriorityDivisionThread
      **/
     @Synchronized
-    internal fun startThread(busInterface: ThreadBusInterface, map: MutableMap<String, BusSubThread?>): BusSubThread {
+    internal fun startThread(task: ThreadTask, map: MutableMap<String, PriorityDivisionThread?>): PriorityDivisionThread {
         removeOnDone = true
         threadMap = map
-        threadBusInterface = busInterface
+        threadTask = task
         return startThread()
     }
     

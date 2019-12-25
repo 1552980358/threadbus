@@ -3,13 +3,13 @@ package lib.github1552980358.threadbus.interfaces
 import java.io.Serializable
 
 /**
- * @File    : HandlerBusInterface
+ * @File    : HandlerTask
  * @Author  : 1552980358
  * @Date    : 2019/12/15
  * @TIME    : 8:59
  **/
 
-abstract class HandlerBusInterface: BaseActionInterface(), Serializable {
+abstract class HandlerTask: BaseActionInterface(), Serializable {
     val getRunnable by lazy {
         Runnable {
             try {

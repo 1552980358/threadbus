@@ -2,8 +2,8 @@ package lib.github1552980358.threadbus
 
 import android.os.Handler
 import android.os.Looper
-import lib.github1552980358.threadbus.interfaces.HandlerBusInterface
-import lib.github1552980358.threadbus.interfaces.ThreadBusInterface
+import lib.github1552980358.threadbus.interfaces.HandlerTask
+import lib.github1552980358.threadbus.interfaces.ThreadTask
 import lib.github1552980358.threadbus.util.Priority
 import lib.github1552980358.threadbus.util.ThreadMessage
 import java.io.Serializable
@@ -47,10 +47,10 @@ open class ThreadBus private constructor(): Serializable {
      **/
     private val handlerMap = mutableMapOf<String, Handler?>()
     /**
-     * busSubThreadMap: storing BusSubThreads
+     * busSubThreadMap: storing PriorityDivisionThread
      * @author 1552980358
      **/
-    private val busSubThreadMap = mutableMapOf<String, BusSubThread?>()
+    private val pdThreadMap = mutableMapOf<String, PriorityDivisionThread?>()
     /**
      * busSubThreadMap: storing threads
      * @author 1552980358
@@ -71,30 +71,30 @@ open class ThreadBus private constructor(): Serializable {
     }
     
     /**
-     * runRunnableAction()
+     * executeTask()
      * @author 1552980358
      * @param handlerName: name of the handler registered
-     * @param action: interface containing actions
+     * @param task: interface containing actions
      * @return ThreadBus
      * @deprecated v0.6
-     * @see runRunnableAction
+     * @see executeTask
      * `Char` can be changed into `String` by user
      * @hide
      **/
     @Deprecated("`Char` can be changed into `String` by user", ReplaceWith("runRunnableAction"), DeprecationLevel.HIDDEN)
     @Synchronized
-    fun runRunnableAction(handlerName: Char, action: HandlerBusInterface): ThreadBus =
-        runRunnableAction(handlerName.toString(), action)
+    fun executeTask(handlerName: Char, task: HandlerTask): ThreadBus =
+        executeTask(handlerName.toString(), task)
     
     /**
-     * runRunnableAction()
+     * executeTask()
      * @author 1552980358
      * @param handlerName: name of the handler registered
      * @param action: interface containing actions
      * @return ThreadBus
      **/
     @Synchronized
-    fun runRunnableAction(handlerName: String, action: HandlerBusInterface, delayMillis: Long = 0): ThreadBus {
+    fun executeTask(handlerName: String, action: HandlerTask, delayMillis: Long = 0): ThreadBus {
         handlerMap[handlerName]?.postDelayed(action.getRunnable, delayMillis)
         return this
     }
@@ -194,26 +194,26 @@ open class ThreadBus private constructor(): Serializable {
     }
     
     /**
-     * registerBusSubThread()
+     * registerPriorityDivisionThread()
      * @author 1552980358
      * @param threadName: name of the handler register
      * @return ThreadBus
      **/
     @Synchronized
-    fun registerBusSubThread(threadName: String): ThreadBus {
-        busSubThreadMap[threadName] = BusSubThread().startThread()
+    fun registerPriorityDivisionThread(threadName: String): ThreadBus {
+        pdThreadMap[threadName] = PriorityDivisionThread().startThread()
         return this
     }
     
     /**
-     * unregisterBusSubThread()
+     * unregisterPriorityDivisionThread()
      * @author 1552980358
      * @param threadName: name of the thread unregister
      * @return ThreadBus
      **/
     @Synchronized
-    fun unregisterBusSubThread(threadName: String): ThreadBus {
-        busSubThreadMap.remove(threadName)?.interrupt()
+    fun unregisterPriorityDivisionThread(threadName: String): ThreadBus {
+        pdThreadMap.remove(threadName)?.interrupt()
         return this
     }
     
@@ -253,21 +253,21 @@ open class ThreadBus private constructor(): Serializable {
     /* ================ THREAD ===================== */
     
     /**
-     * runActionOnBusSubThread()
+     * executeTask()
      * @author 1552980358
      * @param threadName: name of the thread unregister
-     * @param action: task to be done
+     * @param task: task to be done
      * @param priority: priority of task
      * @return ThreadBus
      **/
     @Synchronized
-    fun runActionOnBusSubThread(threadName: String, action: ThreadBusInterface, priority: Priority): ThreadBus {
+    fun executeTask(threadName: String, task: ThreadTask, priority: Priority): ThreadBus {
         try {
             if (priority == Priority.NEW_THREAD) {
-                busSubThreadMap[threadName] = BusSubThread().startThread(action, busSubThreadMap).setThreadName(threadName)
+                pdThreadMap[threadName] = PriorityDivisionThread().startThread(task, pdThreadMap).setThreadName(threadName)
                 return this
             }
-            busSubThreadMap[threadName]?.setBusInterface(action, priority)?.setThreadName(threadName)
+            pdThreadMap[threadName]?.setTask(task, priority)?.setThreadName(threadName)
             return this
         } catch (e: Exception) {
             return this
@@ -284,12 +284,12 @@ open class ThreadBus private constructor(): Serializable {
      **/
     @Synchronized
     fun updateTimeGap(threadName: String, timeGap: Int): ThreadBus {
-        busSubThreadMap[threadName]?.updateTimeGap(timeGap)
+        pdThreadMap[threadName]?.updateTimeGap(timeGap)
         return this
     }
     @Synchronized
     fun updateTimeGap(threadName: String, timeGap: Long): ThreadBus {
-        busSubThreadMap[threadName]?.updateTimeGap(timeGap)
+        pdThreadMap[threadName]?.updateTimeGap(timeGap)
         return this
     }
     
@@ -302,7 +302,7 @@ open class ThreadBus private constructor(): Serializable {
      **/
     @Synchronized
     fun stopCurrentExecution(threadName: String): ThreadBus {
-        busSubThreadMap[threadName]?.stopCurrentExecution()
+        pdThreadMap[threadName]?.stopCurrentExecution()
         return this
     }
     
@@ -316,7 +316,7 @@ open class ThreadBus private constructor(): Serializable {
      **/
     @Synchronized
     fun sendMessage(threadName: String, message: ThreadMessage): ThreadBus {
-        busSubThreadMap[threadName]?.receiveMessage(message)
+        pdThreadMap[threadName]?.receiveMessage(message)
         return this
     }
     

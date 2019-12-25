@@ -4,13 +4,13 @@ import android.os.Handler
 import java.io.Serializable
 
 /**
- * @File    : MessageInterface
+ * @File    : MessageTask
  * @Author  : 1552980358
  * @Date    : 2019/12/19
  * @TIME    : 11:17
  **/
 
-abstract class MessageInterface : BaseActionInterface, Serializable {
+abstract class MessageTask : BaseActionInterface, Serializable {
     
     /**
      * hasCallback
@@ -31,7 +31,7 @@ abstract class MessageInterface : BaseActionInterface, Serializable {
         this.hasCallback = hasCallBack
     }
     
-    fun run() {
+    fun execute() {
         try {
             doAction()
         } catch (e: Exception) {
@@ -50,9 +50,9 @@ abstract class MessageInterface : BaseActionInterface, Serializable {
      * @author 1552980358
      * @since v0.9
      * @param handler: should init interface handler when creation
-     * @return MessageInterface
+     * @return MessageTask
      **/
-    override fun updateHandler(handler: Handler): MessageInterface {
+    override fun updateHandler(handler: Handler): MessageTask {
         super.updateHandler(handler)
         return this
     }
