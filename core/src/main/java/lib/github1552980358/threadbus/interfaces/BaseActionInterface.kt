@@ -47,7 +47,7 @@ abstract class BaseActionInterface: Serializable{
      * @author 1552980358
      * @return void
      **/
-    abstract fun doAction()
+    abstract fun executeTask()
     
     /**
      * onException()
@@ -55,14 +55,14 @@ abstract class BaseActionInterface: Serializable{
      * @param e: Exception output
      * @return void
      **/
-    abstract fun onException(e: Exception)
+    abstract fun onExceptionOccurs(e: Exception)
     
     /**
      * onActionDone()
      * @author 1552980358
      * @return void
      **/
-    abstract fun onActionDone()
+    abstract fun onTaskComplete()
     
     /**
      * constructor()

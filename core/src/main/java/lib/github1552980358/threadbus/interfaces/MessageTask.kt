@@ -33,15 +33,15 @@ abstract class MessageTask : BaseActionInterface, Serializable {
     
     fun execute() {
         try {
-            doAction()
+            executeTask()
         } catch (e: Exception) {
             if (hasCallback) {
-                handler?.post { onException(e) }
+                handler?.post { onExceptionOccurs(e) }
             }
             return
         }
         if (hasCallback) {
-            handler?.post { onActionDone() }
+            handler?.post { onTaskComplete() }
         }
     }
     

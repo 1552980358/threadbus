@@ -123,15 +123,15 @@ internal class PriorityDivisionThread : Thread(), Serializable {
         
         if (!removeOnDone) {
             try {
-                threadTask?.doAction()
+                threadTask?.executeTask()
             } catch (e: Exception) {
-                threadTask?.onException(e)
+                threadTask?.onExceptionOccurs(e)
                 threadMap!!.remove(threadName)
                 threadMap = null
                 System.gc()
                 return
             }
-            threadTask?.onActionDone()
+            threadTask?.onTaskComplete()
             threadMap!!.remove(threadName)
             threadMap = null
             System.gc()
@@ -172,13 +172,13 @@ internal class PriorityDivisionThread : Thread(), Serializable {
                 if (!interfaceExecuting) {
                     continue
                 }
-                threadTask?.doAction()
+                threadTask?.executeTask()
             } catch (e: Exception) {
                 if (!interfaceExecuting) {
                     continue
                 }
                 threadTask?.errorThrown = true
-                threadTask?.handler?.post { threadTask?.onException(e) }
+                threadTask?.handler?.post { threadTask?.onExceptionOccurs(e) }
             }
             try {
                 if (!interfaceExecuting) {
@@ -186,7 +186,7 @@ internal class PriorityDivisionThread : Thread(), Serializable {
                 }
                 
                 if (threadTask == null || threadTask?.errorThrown == null || !threadTask!!.errorThrown) {
-                    threadTask?.handler?.post { threadTask?.onActionDone() }
+                    threadTask?.handler?.post { threadTask?.onTaskComplete() }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
