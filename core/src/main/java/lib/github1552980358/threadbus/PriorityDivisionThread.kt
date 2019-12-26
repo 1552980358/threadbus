@@ -121,7 +121,7 @@ internal class PriorityDivisionThread : Thread(), Serializable {
     override fun run() {
         super.run()
         
-        if (!removeOnDone) {
+        if (removeOnDone) {
             try {
                 threadTask?.executeTask()
             } catch (e: Exception) {
