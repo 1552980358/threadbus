@@ -114,4 +114,15 @@ abstract class ThreadTask: BaseActionInterface(), Serializable {
         return obtainedMessage
     }
     
+    /**
+     * postHandler()
+     * @author 1552980358
+     * @since v0.16
+     * @param runnable
+     * @return void
+     **/
+    fun postHandler(runnable: Runnable) {
+        handler?.post(runnable)
+    }
+    
 }
