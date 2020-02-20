@@ -93,6 +93,7 @@ open class ThreadBus private constructor(): Serializable {
      * @param action: interface containing actions
      * @return ThreadBus
      **/
+    @JvmOverloads
     @Synchronized
     fun executeTask(handlerName: String, action: HandlerTask, delayMillis: Long = 0): ThreadBus {
         handlerMap[handlerName]?.postDelayed(action.getRunnable, delayMillis)
@@ -176,6 +177,7 @@ open class ThreadBus private constructor(): Serializable {
      * @param delayMillis: millis to be delayed
      * @return ThreadBus
      **/
+    @JvmOverloads
     @Synchronized
     fun postHandler(handlerName: String, runnable: Runnable, delayMillis: Long = 0): ThreadBus {
         handlerMap[handlerName]!!.postDelayed(runnable, delayMillis)
