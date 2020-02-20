@@ -31,7 +31,7 @@ abstract class ThreadTask: BaseActionInterface(), Serializable {
     private var resultObtained = true
     
     /**
-     * receiveMessage()
+     * @fun [receiveMessage]
      * @author 1552980358
      * @since v0.8
      * @param threadMessage?
@@ -48,7 +48,7 @@ abstract class ThreadTask: BaseActionInterface(), Serializable {
     }
     
     /**
-     * onReceiveMessage()
+     * @fun [onReceiveMessage]
      * @author 1552980358
      * @since v0.8
      * @description called by internal obtainMessage()
@@ -59,7 +59,7 @@ abstract class ThreadTask: BaseActionInterface(), Serializable {
     }
     
     /**
-     * waitForMessage()
+     * @fun [waitForMessage]
      * @author 1552980358
      * @since v0.7
      * @description thread sleeper for waiting for result
@@ -83,7 +83,7 @@ abstract class ThreadTask: BaseActionInterface(), Serializable {
     }
     
     /**
-     * stopWaiting()
+     * @fun [stopWaiting]
      * @author 1552980358
      * @since v0.7
      * @return void
@@ -93,7 +93,7 @@ abstract class ThreadTask: BaseActionInterface(), Serializable {
     }
     
     /**
-     * releaseMessage()
+     * @fun [releaseMessage]
      * @author 1552980358
      * @since v0.14
      * @description remove message obtained
@@ -104,7 +104,7 @@ abstract class ThreadTask: BaseActionInterface(), Serializable {
     }
     
     /**
-     * getObtainedMessage()
+     * @fun [getObtainedMessage]
      * @author 1552980358
      * @since v0.14
      * @description remove message obtained
@@ -115,7 +115,7 @@ abstract class ThreadTask: BaseActionInterface(), Serializable {
     }
     
     /**
-     * postHandler()
+     * @fun [postHandler]
      * @author 1552980358
      * @since v0.16
      * @param runnable

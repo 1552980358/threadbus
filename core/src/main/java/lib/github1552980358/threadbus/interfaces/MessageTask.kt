@@ -31,22 +31,30 @@ abstract class MessageTask : BaseActionInterface, Serializable {
         this.hasCallback = hasCallBack
     }
     
+    /**
+     * @fun [execute]
+     * @author 1552980358
+     * @date 2020/2/3
+     * @time 18:12
+     * @description
+     * @return void
+     **/
     fun execute() {
         try {
-            executeTask()
+            executeTask(resultMap)
         } catch (e: Exception) {
             if (hasCallback) {
-                handler?.post { onExceptionOccurs(e) }
+                handler?.post { onExceptionOccurs(e, resultMap) }
             }
             return
         }
         if (hasCallback) {
-            handler?.post { onTaskComplete() }
+            handler?.post { onTaskComplete(resultMap) }
         }
     }
     
     /**
-     * initWithHandler()
+     * @fun [updateHandler]
      * @author 1552980358
      * @since v0.9
      * @param handler: should init interface handler when creation

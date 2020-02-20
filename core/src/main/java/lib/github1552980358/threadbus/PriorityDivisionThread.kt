@@ -52,7 +52,7 @@ internal class PriorityDivisionThread : Thread(), Serializable {
     private var removeOnDone = false
     
     /**
-     * setTask
+     * @fun [setTask]
      * @author 1552980358
      * @param task add a interface to be executed
      * @param priority consider force
@@ -84,7 +84,7 @@ internal class PriorityDivisionThread : Thread(), Serializable {
     }
     
     /**
-     * setThreadName()
+     * @fun [setThreadName]
      * @author 1552980358
      * @since v0.8
      * @param name: name of thread
@@ -99,7 +99,7 @@ internal class PriorityDivisionThread : Thread(), Serializable {
     }
     
     /**
-     * receiveMessage()
+     * @fun [receiveMessage]
      * @author 1552980358
      * @since v0.8
      * @param message: message received
@@ -114,7 +114,7 @@ internal class PriorityDivisionThread : Thread(), Serializable {
     }
     
     /**
-     * run: rewrite super function
+     * @fun [run]: rewrite super function
      * @author 1552980358
      * @return void
      **/
@@ -123,15 +123,15 @@ internal class PriorityDivisionThread : Thread(), Serializable {
         
         if (removeOnDone) {
             try {
-                threadTask?.executeTask()
+                threadTask?.executeTask(threadTask?.resultMap)
             } catch (e: Exception) {
-                threadTask?.onExceptionOccurs(e)
+                threadTask?.onExceptionOccurs(e, threadTask?.resultMap)
                 threadMap!!.remove(threadName)
                 threadMap = null
                 System.gc()
                 return
             }
-            threadTask?.onTaskComplete()
+            threadTask?.onTaskComplete(threadTask?.resultMap)
             threadMap!!.remove(threadName)
             threadMap = null
             System.gc()
@@ -172,13 +172,13 @@ internal class PriorityDivisionThread : Thread(), Serializable {
                 if (!interfaceExecuting) {
                     continue
                 }
-                threadTask?.executeTask()
+                threadTask?.executeTask(threadTask?.resultMap)
             } catch (e: Exception) {
                 if (!interfaceExecuting) {
                     continue
                 }
                 threadTask?.errorThrown = true
-                threadTask?.handler?.post { threadTask?.onExceptionOccurs(e) }
+                threadTask?.handler?.post { threadTask?.onExceptionOccurs(e, threadTask?.resultMap) }
             }
             try {
                 if (!interfaceExecuting) {
@@ -186,7 +186,7 @@ internal class PriorityDivisionThread : Thread(), Serializable {
                 }
                 
                 if (threadTask == null || threadTask?.errorThrown == null || !threadTask!!.errorThrown) {
-                    threadTask?.handler?.post { threadTask?.onTaskComplete() }
+                    threadTask?.handler?.post { threadTask?.onTaskComplete(threadTask?.resultMap) }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -199,7 +199,7 @@ internal class PriorityDivisionThread : Thread(), Serializable {
     }
     
     /**
-     * updateTimeGap()
+     * @fun [updateTimeGap]
      * @author 1552980358
      * @param gap
      * @throws BusSubThreadException
@@ -215,7 +215,7 @@ internal class PriorityDivisionThread : Thread(), Serializable {
     }
     
     /**
-     * stopCurrentExecution()
+     * @fun [stopCurrentExecution]
      * @author 1552980358
      * @return void
      **/
@@ -224,7 +224,7 @@ internal class PriorityDivisionThread : Thread(), Serializable {
     }
     
     /**
-     * interrupt()
+     * @fun [interrupt]
      * @author 1552980358
      * @return void
      **/
@@ -234,7 +234,7 @@ internal class PriorityDivisionThread : Thread(), Serializable {
     }
     
     /**
-     * startThread()
+     * @fun [startThread]
      * @author 1552980358
      * @return PriorityDivisionThread
      **/
@@ -245,7 +245,7 @@ internal class PriorityDivisionThread : Thread(), Serializable {
     }
     
     /**
-     * startThread()
+     * @fun [startThread]
      * @author 1552980358
      * @param task task to be done
      * @param map map storing threads

@@ -71,7 +71,7 @@ open class ThreadBus private constructor(): Serializable {
     }
     
     /**
-     * executeTask()
+     * @fun [executeTask]
      * @author 1552980358
      * @param handlerName: name of the handler registered
      * @param task: interface containing actions
@@ -87,7 +87,7 @@ open class ThreadBus private constructor(): Serializable {
         executeTask(handlerName.toString(), task)
     
     /**
-     * executeTask()
+     * @fun [executeTask]
      * @author 1552980358
      * @param handlerName: name of the handler registered
      * @param action: interface containing actions
@@ -100,7 +100,7 @@ open class ThreadBus private constructor(): Serializable {
     }
     
     /**
-     * registerHandler()
+     * @fun [registerHandler]
      * @author 1552980358
      * @description register a handler
      * @param handlerName: name of the handler register
@@ -118,7 +118,7 @@ open class ThreadBus private constructor(): Serializable {
     }
     
     /**
-     * registerHandler()
+     * @fun [registerHandler]
      * @author 1552980358
      * @since v0.5
      * @description register a handler
@@ -137,7 +137,7 @@ open class ThreadBus private constructor(): Serializable {
     }
     
     /**
-     * registerHandler(): register a handler for current thread
+     * @fun [registerHandler]: register a handler for current thread
      * @author 1552980358
      * @since v0.5
      * @param handlerName: name of the handler register
@@ -154,7 +154,7 @@ open class ThreadBus private constructor(): Serializable {
     }
     
     /**
-     * unregisterHandler()
+     * @fun [unregisterHandler]
      * @author 1552980358
      * @param handlerName: name of the handler unregister
      * @return ThreadBus
@@ -166,7 +166,7 @@ open class ThreadBus private constructor(): Serializable {
     }
     
     /**
-     * unregisterHandler()
+     * @fun [unregisterHandler]
      * @author 1552980358
      * @since v0.5
      * @description do not hope for callback of contents
@@ -183,7 +183,7 @@ open class ThreadBus private constructor(): Serializable {
     }
     
     /**
-     * getLooper()
+     * @fun [getLooper]
      * @since v0.5
      * @author 1552980358
      * @param handlerName: name of the handler
@@ -194,7 +194,7 @@ open class ThreadBus private constructor(): Serializable {
     }
     
     /**
-     * registerThread()
+     * @fun [registerThread]
      * @author 1552980358
      * @param threadName: name of the handler register
      * @return ThreadBus
@@ -206,7 +206,7 @@ open class ThreadBus private constructor(): Serializable {
     }
     
     /**
-     * unregisterPriorityDivisionThread()
+     * @fun [unregisterPriorityDivisionThread]
      * @author 1552980358
      * @param threadName: name of the thread unregister
      * @return ThreadBus
@@ -218,7 +218,7 @@ open class ThreadBus private constructor(): Serializable {
     }
     
     /**
-     * registerThread()
+     * @fun [registerThread]
      * @author 1552980358
      * @since v0.5
      * @param threadName: name of the thread register
@@ -232,7 +232,7 @@ open class ThreadBus private constructor(): Serializable {
     }
     
     /**
-     * unregisterThread()
+     * @fun [unregisterThread]
      * @author 1552980358
      * @since v0.5
      * @param threadName: name of the thread unregister
@@ -253,7 +253,7 @@ open class ThreadBus private constructor(): Serializable {
     /* ================ THREAD ===================== */
     
     /**
-     * executeTask()
+     * @fun [executeTask]
      * @author 1552980358
      * @param threadName: name of the thread unregister
      * @param task: task to be done
@@ -275,7 +275,7 @@ open class ThreadBus private constructor(): Serializable {
     }
     
     /**
-     * stopCurrentExecution()
+     * @fun [stopCurrentExecution]
      * @author 1552980358
      * @since v0.7
      * @param threadName
@@ -294,7 +294,7 @@ open class ThreadBus private constructor(): Serializable {
     }
     
     /**
-     * stopCurrentExecution()
+     * @fun [stopCurrentExecution]
      * @author 1552980358
      * @since v0.7
      * @param threadName
@@ -307,7 +307,7 @@ open class ThreadBus private constructor(): Serializable {
     }
     
     /**
-     * sendMessage()
+     * @fun [sendMessage]
      * @author 1552980358
      * @since v0.8
      * @param threadName

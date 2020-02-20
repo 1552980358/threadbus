@@ -40,29 +40,32 @@ abstract class BaseActionInterface: Serializable{
      * @author 1552980358
      * @since v0.4
      **/
-    private var resultMap: MutableMap<String, Any?>? = mutableMapOf()
+    /*private*/ var resultMap: MutableMap<String, Any?>? = mutableMapOf()
     
     /**
-     * doAction()
+     * @fun [executeTask]
      * @author 1552980358
+     * @param results
      * @return void
      **/
-    abstract fun executeTask()
+    abstract fun executeTask(results: MutableMap<String, Any?>?)
     
     /**
-     * onException()
+     * @fun [onExceptionOccurs]
      * @author 1552980358
      * @param e: Exception output
+     * @param results
      * @return void
      **/
-    abstract fun onExceptionOccurs(e: Exception)
+    abstract fun onExceptionOccurs(e: Exception, results: MutableMap<String, Any?>?)
     
     /**
-     * onActionDone()
+     * @fun [onTaskComplete]
      * @author 1552980358
+     * @param results
      * @return void
      **/
-    abstract fun onTaskComplete()
+    abstract fun onTaskComplete(results: MutableMap<String, Any?>?)
     
     /**
      * constructor()
@@ -93,7 +96,7 @@ abstract class BaseActionInterface: Serializable{
     }
     
     /**
-     * initWithHandler()
+     * @fun [updateHandler]
      * @author 1552980358
      * @param handler: should init interface handler when creation
      * @return BaseActionInterface
@@ -104,7 +107,7 @@ abstract class BaseActionInterface: Serializable{
     }
     
     /**
-     * setResults()
+     * @fun [setResults]
      * @author 1552980358
      * @param results: results array
      * @return HandlerBaseActionInterface
@@ -128,7 +131,7 @@ abstract class BaseActionInterface: Serializable{
         }
     }
     /**
-     * setResultClasses()
+     * @fun [setResultClasses]
      * @author 1552980358
      * @since v0.4
      * @param results: results array
@@ -148,7 +151,7 @@ abstract class BaseActionInterface: Serializable{
     }
     
     /**
-     * setResult()
+     * @fun [setResult]
      * @author 1552980358
      * @param index: index to be inserted
      * @param result: result object
@@ -172,7 +175,7 @@ abstract class BaseActionInterface: Serializable{
     }
     
     /**
-     * addResult()
+     * @fun [addResult]
      * @author 1552980358
      * @param result: result object added to map
      * @return HandlerBaseActionInterface
@@ -195,7 +198,7 @@ abstract class BaseActionInterface: Serializable{
     }
     
     /**
-     * setResult()
+     * @fun [setResult]
      * @author 1552980358
      * @since v0.4
      * @param result: result object added to map
@@ -213,7 +216,7 @@ abstract class BaseActionInterface: Serializable{
     }
     
     /**
-     * setResult()
+     * @fun [setResult]
      * @author 1552980358
      * @since v0.4
      * @param result: result object added to map
@@ -231,7 +234,7 @@ abstract class BaseActionInterface: Serializable{
     }
     
     /**
-     * getResult()
+     * @fun [getResult]
      * @author 1552980358
      * @param T: type of returning object
      * @param index: index of the object
@@ -254,7 +257,7 @@ abstract class BaseActionInterface: Serializable{
     }
     
     /**
-     * getResult()
+     * @fun [getResult]
      * @author 1552980358
      * @since v0.4
      * @param name: result object added to map
@@ -272,7 +275,7 @@ abstract class BaseActionInterface: Serializable{
     }
     
     /**
-     * getResults()
+     * @fun [getResults]
      * @author 1552980358
      * @return ArrayList<Any?>
      * @throws BusInstanceException
@@ -288,7 +291,7 @@ abstract class BaseActionInterface: Serializable{
     }
     
     /**
-     * getResults()
+     * @fun [getResults]
      * @author 1552980358
      * @since v0.4
      * @return MutableMap<String, Any?>
@@ -300,7 +303,7 @@ abstract class BaseActionInterface: Serializable{
     }
     
     /**
-     * releaseAll()
+     * @fun [releaseAll]
      * @author 1552980358
      * @param cleaning whether clean garbage
      * @return void

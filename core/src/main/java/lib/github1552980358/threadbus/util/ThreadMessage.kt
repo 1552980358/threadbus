@@ -22,7 +22,7 @@ open class ThreadMessage(val messageName: String): Serializable {
     private var taskArray: ArrayList<MessageTask>? = ArrayList()
     
     /**
-     * addMessage()
+     * @fun [setMessage]
      * @author 1552980358
      * @since v0.7
      * @description add a message
@@ -35,7 +35,7 @@ open class ThreadMessage(val messageName: String): Serializable {
     }
     
     /**
-     * getMessage()
+     * @fun [getMessage]
      * @author 1552980358
      * @since v0.7
      * @description get a specific message
@@ -48,7 +48,7 @@ open class ThreadMessage(val messageName: String): Serializable {
     }
     
     /**
-     * removeMessage()
+     * @fun [removeMessage]
      * @author 1552980358
      * @since v0.7
      * @description remove a message
@@ -61,7 +61,7 @@ open class ThreadMessage(val messageName: String): Serializable {
     }
     
     /**
-     * getMsgSize()
+     * @fun [getMsgSize]
      * @author 1552980358
      * @since v0.7
      * @description get size of MsgMap
@@ -72,7 +72,7 @@ open class ThreadMessage(val messageName: String): Serializable {
     }
     
     /**
-     * addAction()
+     * @fun [removeAllMsg]
      * @author 1552980358
      * @since v0.7
      * @description remove all actions
@@ -84,7 +84,7 @@ open class ThreadMessage(val messageName: String): Serializable {
     }
     
     /**
-     * insertTask()
+     * @fun [insertTask]
      * @author 1552980358
      * @since v0.7
      * @description insert a msgAction into front of specific index of array
@@ -98,7 +98,7 @@ open class ThreadMessage(val messageName: String): Serializable {
     }
     
     /**
-     * setTask()
+     * @fun [setTask]
      * @author 1552980358
      * @since v0.7
      * @description set a msgAction into specific index of array
@@ -112,7 +112,7 @@ open class ThreadMessage(val messageName: String): Serializable {
     }
     
     /**
-     * addTask()
+     * @fun [addTask]
      * @author 1552980358
      * @since v0.7
      * @description add a msgAction into end of array
