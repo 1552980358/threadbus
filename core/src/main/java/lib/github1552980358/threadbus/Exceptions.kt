@@ -2,6 +2,7 @@ package lib.github1552980358.threadbus
 
 import java.io.Serializable
 import java.lang.IllegalStateException
+import java.lang.RuntimeException
 
 /**
  * @File    : Exceptions
@@ -20,16 +21,23 @@ open class BaseException(msg: String): IllegalStateException(msg), Serializable
  * IllegalStateInitializeException
  * @author 1552980358
  **/
-class IllegalStateInitializeException: BaseException("Initialize wrongly"), Serializable
+internal class IllegalStateInitializeException: BaseException("Initialize wrongly"), Serializable
 
 /**
  * BusInstanceException
  * @author 1552980358
  **/
-class BusInstanceException(msg: String) : BaseException(msg), Serializable
+internal class BusInstanceException(msg: String) : BaseException(msg), Serializable
 
 /**
  * BusSubThreadException
  * @author 1552980358
  **/
-class BusSubThreadException(msg: String) : BaseException(msg), Serializable
+internal class BusSubThreadException(msg: String) : BaseException(msg), Serializable
+
+/**
+ * TaskCompleteFlagException
+ * @author 1552980358
+ * @since v0.17
+ **/
+internal class TaskCompleteFlagException: RuntimeException("RUNTIME COMPLETE")

@@ -13,12 +13,12 @@ abstract class HandlerTask: BaseActionInterface(), Serializable {
     val getRunnable by lazy {
         Runnable {
             try {
-                executeTask()
+                executeTask(resultMap)
             } catch (e: Exception) {
-                handler?.post { onExceptionOccurs(e) }
+                handler?.post { onExceptionOccurs(e, resultMap) }
                 return@Runnable
             }
-            handler?.post { onTaskComplete() }
+            handler?.post { onTaskComplete(resultMap) }
         }
     }
 }

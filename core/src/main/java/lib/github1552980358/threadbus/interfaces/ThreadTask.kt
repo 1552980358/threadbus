@@ -11,7 +11,7 @@ import java.io.Serializable
  **/
 
 @Suppress("unused")
-abstract class ThreadTask: BaseActionInterface(), Serializable {
+abstract class ThreadTask : BaseActionInterface(), Serializable {
     
     private var obtainedMessage: ThreadMessage? = null
     
@@ -20,7 +20,10 @@ abstract class ThreadTask: BaseActionInterface(), Serializable {
      * @author 1552980358
      * @since v0.7
      * @description flag indicating whether error thrown
+     * @deprecated v0.17
+     * @hide
      **/
+    @Deprecated("DO NOT NEED IT", ReplaceWith("NONE"), DeprecationLevel.HIDDEN)
     var errorThrown = false
     /**
      * resultObtained

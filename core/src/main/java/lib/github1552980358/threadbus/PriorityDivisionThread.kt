@@ -173,11 +173,16 @@ internal class PriorityDivisionThread : Thread(), Serializable {
                     continue
                 }
                 threadTask?.executeTask(threadTask?.resultMap)
+            } catch (e: TaskCompleteFlagException) {
+                // stop task during execution
+                threadTask?.completeTask = true
+                threadTask?.handler?.post { threadTask?.onTaskComplete(threadTask?.resultMap) }
             } catch (e: Exception) {
                 if (!interfaceExecuting) {
                     continue
                 }
-                threadTask?.errorThrown = true
+                //threadTask?.errorThrown = true
+                threadTask?.completeTask = true
                 threadTask?.handler?.post { threadTask?.onExceptionOccurs(e, threadTask?.resultMap) }
             }
             try {
@@ -185,7 +190,8 @@ internal class PriorityDivisionThread : Thread(), Serializable {
                     continue
                 }
                 
-                if (threadTask == null || threadTask?.errorThrown == null || !threadTask!!.errorThrown) {
+                if (threadTask != null
+                    || threadTask?.completeTask == false/*!threadTask!!.errorThrown*/) {
                     threadTask?.handler?.post { threadTask?.onTaskComplete(threadTask?.resultMap) }
                 }
             } catch (e: Exception) {

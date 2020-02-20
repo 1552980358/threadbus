@@ -5,6 +5,7 @@ package lib.github1552980358.threadbus.interfaces
 import android.os.Handler
 import android.os.Looper
 import lib.github1552980358.threadbus.BusInstanceException
+import lib.github1552980358.threadbus.TaskCompleteFlagException
 import lib.github1552980358.threadbus.util.Result
 import lib.github1552980358.threadbus.util.ResultClass
 import java.io.Serializable
@@ -17,7 +18,7 @@ import java.io.Serializable
  **/
 
 @Suppress("unused")
-abstract class BaseActionInterface: Serializable{
+abstract class BaseActionInterface : Serializable {
     /**
      * handler
      * @author 1552980358
@@ -40,7 +41,14 @@ abstract class BaseActionInterface: Serializable{
      * @author 1552980358
      * @since v0.4
      **/
-    /*private*/ var resultMap: MutableMap<String, Any?>? = mutableMapOf()
+    internal var resultMap: MutableMap<String, Any?>? = mutableMapOf()
+    
+    /**
+     * flag indicating whether the task is completed
+     * @author 1552980358
+     * @since v0.17
+     **/
+    internal var completeTask = false
     
     /**
      * @fun [executeTask]
@@ -68,22 +76,38 @@ abstract class BaseActionInterface: Serializable{
     abstract fun onTaskComplete(results: MutableMap<String, Any?>?)
     
     /**
+     * @fun [completeTask]
+     * @author 1552980358
+     * @date 2020/2/20
+     * @time 16:52
+     * @description
+     * @return void
+     * @since v0.17
+     **/
+    fun completeTask() {
+        completeTask = true
+        throw TaskCompleteFlagException()
+    }
+    
+    /**
      * constructor()
      * @author 1552980358
      * @description create a handler with initial thread
      **/
-    constructor(): super() {
+    constructor() : super() {
         this.handler = Handler()
     }
+    
     /**
      * constructor()
      * @author 1552980358
      * @description set a handler with initial thread
      * @param handler
      **/
-    constructor(handler: Handler): super() {
+    constructor(handler: Handler) : super() {
         this.handler = handler
     }
+    
     /**
      * constructor()
      * @author 1552980358
@@ -91,7 +115,7 @@ abstract class BaseActionInterface: Serializable{
      * @description set a handler with initial thread
      * @param looper
      **/
-    constructor(looper: Looper): super() {
+    constructor(looper: Looper) : super() {
         this.handler = Handler(looper)
     }
     
@@ -118,18 +142,23 @@ abstract class BaseActionInterface: Serializable{
      * @see setResultClasses
      **/
     @Suppress("DEPRECATION")
-    @Deprecated("Use String as Identifier", ReplaceWith("setResultClasses(vararg ResultClass)"), DeprecationLevel.WARNING)
+    @Deprecated(
+        "Use String as Identifier",
+        ReplaceWith("setResultClasses(vararg ResultClass)"),
+        DeprecationLevel.WARNING
+    )
     @Synchronized
     fun setResults(vararg results: Result): BaseActionInterface {
         return try {
-           results.forEach {
-               resultsArray!![it.index] = it.result
-           }
-           this
-       } catch (e: Exception) {
+            results.forEach {
+                resultsArray!![it.index] = it.result
+            }
+            this
+        } catch (e: Exception) {
             throw BusInstanceException("Request for result data actions after release")
         }
     }
+    
     /**
      * @fun [setResultClasses]
      * @author 1552980358
@@ -251,7 +280,7 @@ abstract class BaseActionInterface: Serializable{
         @Suppress("UNCHECKED_CAST")
         return try {
             resultsArray!![index] as T
-        } catch (e:Exception) {
+        } catch (e: Exception) {
             throw BusInstanceException("Request for result data actions after release")
         }
     }
@@ -265,7 +294,7 @@ abstract class BaseActionInterface: Serializable{
      * @throws BusInstanceException
      **/
     @Suppress("MemberVisibilityCanBePrivate")
-    fun<T> getResult(name: String): T {
+    fun <T> getResult(name: String): T {
         return try {
             @Suppress("UNCHECKED_CAST")
             resultMap!![name] as T
