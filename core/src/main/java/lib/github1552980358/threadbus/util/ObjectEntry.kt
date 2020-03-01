@@ -232,7 +232,7 @@ fun stopCurrentExecution(threadName: String) =
 /**
  * @fun [sendMessage]
  * @author 1552980358
- * @since v
+ * @since v0.17
  * @date 2020/3/1
  * @time 14:30
  * @description
