@@ -212,7 +212,6 @@ internal class PriorityDivisionThread : Thread(), Serializable {
      *
      * @warning INTERNAL
      **/
-    internal fun updateTimeGap(gap: Int) = updateTimeGap(gap.toLong())
     internal fun updateTimeGap(gap: Long) {
         if (gap <= 0) {
             throw BusSubThreadException("Time gap should be GREATER than 0")

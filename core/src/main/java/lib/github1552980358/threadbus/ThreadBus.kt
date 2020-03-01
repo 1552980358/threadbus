@@ -23,6 +23,7 @@ open class ThreadBus private constructor(): Serializable {
         /**
          * @author 1552980358
          **/
+        @JvmStatic
         val threadBus by lazy { ThreadBus() }
         
         const val CREATE = "CREATE"
@@ -133,8 +134,7 @@ open class ThreadBus private constructor(): Serializable {
      **/
     @Synchronized
     fun registerHandler(handlerName: String, looper: Looper): ThreadBus {
-        handlerMap[handlerName] = Handler(looper)
-        return this
+        return registerHandler(handlerName, Handler(looper))
     }
     
     /**
@@ -150,8 +150,7 @@ open class ThreadBus private constructor(): Serializable {
      **/
     @Synchronized
     fun registerHandler(handlerName: String): ThreadBus {
-        handlerMap[handlerName] = Handler(Looper.myLooper()!!)
-        return this
+        return registerHandler(handlerName, Looper.myLooper()!!)
     }
     
     /**
@@ -286,8 +285,7 @@ open class ThreadBus private constructor(): Serializable {
      **/
     @Synchronized
     fun updateTimeGap(threadName: String, timeGap: Int): ThreadBus {
-        pdThreadMap[threadName]?.updateTimeGap(timeGap)
-        return this
+        return updateTimeGap(threadName, timeGap.toLong())
     }
     @Synchronized
     fun updateTimeGap(threadName: String, timeGap: Long): ThreadBus {
