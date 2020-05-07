@@ -11,6 +11,8 @@ threadbus
 - ~~~请参照[中文Wiki](https://github.com/1552980358/threadbus/wiki/%E4%B8%BB%E9%A1%B5)~~~
 - Due to DSE, with most method and entry has been changed, please wait for update of wiki after I complete DSE
 - 由于需要准备DSE考试, 并且WIKI中的方法入口已有大量修改, 请待未来DSE考试完毕后再进行更新
+- 项目已废除，替代项目请前往[https://github.com/1552980358/labourforce](https://github.com/1552980358/labourforce)
+- Repo is deprecated, replacing repo: [https://github.com/1552980358/labourforce](https://github.com/1552980358/labourforce)
 
 ## Module of this repo / 本仓库模块
 - Core / 核心 : [https://github.com/1552980358/threadbus/tree/master/core](https://github.com/1552980358/threadbus/tree/master/core)
